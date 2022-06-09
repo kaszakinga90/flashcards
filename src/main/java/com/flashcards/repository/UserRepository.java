@@ -1,6 +1,7 @@
 package com.flashcards.repository;
 
 import com.flashcards.domain.User;
+import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -12,6 +13,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Override
     Optional<User> findById(Long id);
+
+    default Optional<User> findByEmail(String email){
+        User example = new User();
+        example.setEmail(email);
+        return findOne(Example.of(example));
+    }
 
     @Override
     User save(User user);

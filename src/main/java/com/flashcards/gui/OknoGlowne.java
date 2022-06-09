@@ -3,6 +3,9 @@ package com.flashcards.gui;
 //import listeners.FiszkiListener;
 //import listeners.PomocListener;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -16,8 +19,11 @@ import java.awt.event.MouseMotionListener;
  * Statystyki - statystyki u¿ytkownika, które mo¿na nastêpnie zapisaæ do pliku
  * "?" - pomoc
  */
+@Component
 public class OknoGlowne 
 {
+	@Autowired
+	OknoNauka oknoNauka;
 	private JFrame frame;
 	private JPanel panel;
 	private JButton przyciskFiszki;
@@ -131,6 +137,10 @@ public class OknoGlowne
 		
 //		przyciskFiszki.addActionListener(new FiszkiListener(this));
 //		przyciskPomoc.addMouseMotionListener(new PomocListener(this));
+		przyciskFiszkiNauka.addActionListener(e -> {
+			oknoNauka.init();
+			this.zamknijOkno();
+		});
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(false);

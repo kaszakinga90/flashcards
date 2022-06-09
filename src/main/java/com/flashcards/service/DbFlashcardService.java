@@ -3,6 +3,7 @@ package com.flashcards.service;
 import com.flashcards.domain.Flashcard;
 import com.flashcards.domain.exceptions.FlashcardNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.flashcards.repository.FlashcardRepository;
 
@@ -13,7 +14,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DbFlashcardService {
 
-    private final FlashcardRepository flashcardRepository;
+    @Autowired
+    private  FlashcardRepository flashcardRepository;
 
     public void createFlashcard(Flashcard flashcard) {
         flashcardRepository.save(flashcard);

@@ -10,6 +10,7 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public abstract class AbstractCredentialWindow {
 
+
     protected final JFrame frame;
     protected final JTextField textFieldEmail;
     protected final JLabel labelEmail;
@@ -53,12 +54,4 @@ public abstract class AbstractCredentialWindow {
         frame.dispose();
     }
     public void ukryjOkno() { frame.setVisible(false);}
-
-    public void addZarejestrujButtonListener(ActionListener al){
-        buttonZapiszZarejestruj.addActionListener(al);
-    }
-
-    public UserDto aktualnyUser(){
-        return new UserDto(null, textFieldEmail.getText(), textFieldPassword.getText());
-    }
 }
