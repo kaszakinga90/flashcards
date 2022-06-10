@@ -21,7 +21,7 @@ public class FlashcardMapper {
         return new Flashcard(
                 flashcardDto.getSlowoPolskie(),
                 flashcardDto.getSlowoAngielskie(),
-                dbUserService.getUser(flashcardDto.getUserDto().getId()).orElseThrow(UserNotFoundException::new));
+                userMapper.mapToUser(flashcardDto.getUserDto()));
     }
 
     public FlashcardDto mapToFlashcardDto(Flashcard flashcard) {
@@ -31,6 +31,7 @@ public class FlashcardMapper {
                 flashcard.getSlowoAngielskie(),
                 userMapper.mapToUserDto(flashcard.getUser()));
     }
+
 
     public List<FlashcardDto> mapToFlashcardDtoList(final List<Flashcard> orderList) {
         return  orderList.stream()

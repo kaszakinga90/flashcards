@@ -24,6 +24,9 @@ public class OknoGlowne
 {
 	@Autowired
 	OknoNauka oknoNauka;
+
+	@Autowired
+	OknoFiszki oknoFiszki;
 	private JFrame frame;
 	private JPanel panel;
 	private JButton przyciskFiszki;
@@ -138,8 +141,9 @@ public class OknoGlowne
 //		przyciskFiszki.addActionListener(new FiszkiListener(this));
 //		przyciskPomoc.addMouseMotionListener(new PomocListener(this));
 		przyciskFiszkiNauka.addActionListener(e -> {
-			oknoNauka.init();
-			this.zamknijOkno();
+			oknoNauka.init(this.frame);
+
+//			this.zamknijOkno();
 		});
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -150,7 +154,7 @@ public class OknoGlowne
 		frame.setVisible(true);
 	}
 	public void zamknijOkno(){
-		frame.dispose();
+		frame.setVisible(false);
 	}
 	public void ukryjOkno() { frame.setVisible(false);}
 	

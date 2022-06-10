@@ -12,5 +12,5 @@ public class FlashcardDto {
     private Long id;
     private String slowoAngielskie;
     private String slowoPolskie;
-    UserDto userDto;
+    private UserDto userDto;
 }

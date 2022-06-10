@@ -21,4 +21,8 @@ public class FlashcardService {
     public List<FlashcardDto> getFlashcardsForUser(UserDto userDto){
         return flashcardMapper.mapToFlashcardDtoList(flashcardRepository.findByUser(userDto));
     }
+
+    public void saveFlashcardForUser(FlashcardDto flashcardDto){
+        flashcardRepository.save(flashcardMapper.mapToFlashcard(flashcardDto));
+    }
 }

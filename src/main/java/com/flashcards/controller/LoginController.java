@@ -16,4 +16,5 @@ public class LoginController {
     public Optional<UserDto> loggedInUser(){
          return loginService.currentLoggedInUser();
     }
+
 }

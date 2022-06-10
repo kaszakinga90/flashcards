@@ -4,6 +4,7 @@ import com.flashcards.controller.FlashcardController;
 import com.flashcards.controller.LoginController;
 import com.flashcards.domain.dto.FlashcardDto;
 import com.flashcards.domain.dto.UserDto;
+import com.flashcards.service.DbFlashcardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +12,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 import java.util.Optional;
 
 import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 
+// okno do dodawania/wczytywania fiszek
 @Component
 public class OknoNauka {
 
@@ -35,6 +36,9 @@ public class OknoNauka {
     private final JButton zapiszFiszki;
 
     private java.util.List<FlashcardDto> flashcards;
+
+    @Autowired
+    DbFlashcardService dbFlashcardService;
     private int counter = 0;
 
     @Autowired
@@ -81,6 +85,29 @@ public class OknoNauka {
 
         frame.setVisible(false);
 
+
+
+
+        /*
+        poniżej nowy kod
+
+        */
+
+        buttonAdd.addActionListener(e -> {
+            wyczyscPola();;
+        });
+
+        buttonSave.addActionListener(e -> {
+            flashcardController.saveFlashCard(textFieldWordPl.getText(), textFieldWordEn.getText());
+        });
+
+//        zapiszFiszki.addActionListener(e -> {
+//            ObslugaPlikow.zapiszDoPliku();
+//        });
+//
+//        wczytajFiszki.addActionListener(e -> {
+//            ObslugaPlikow.wczytajFiszki(ObslugaPlikow.wybierzPlik());
+//        });
     }
 
 
@@ -91,7 +118,30 @@ public class OknoNauka {
         textFieldWordEn.setEnabled(false);
     }
 
-//    public ParaSlow aktualnaFiszka() {
+    public void wyczyscPola() {
+        textFieldWordPl.setText("");
+        textFieldWordEn.setText("");
+        textFieldWordPl.setEnabled(true);
+        textFieldWordEn.setEnabled(true);
+    }
+
+    public void init(JFrame oknoGlowne) {
+        frame.setVisible(true);
+        flashcards = flashcardController.flashcardsForLoggedInUser();
+        counter = 0;
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+            }
+            public void windowClosed(WindowEvent e) {
+                oknoGlowne.setVisible(true);
+                //getOkno().AktywujPrzyciski();
+//				okno.pokazOkno();
+            }
+        });
+    }
+
+
+    //    public ParaSlow aktualnaFiszka() {
 //
 //        String firstWord = textFieldWordPl.getText();
 //        String secondWord = textFieldWordEn.getText();
@@ -105,17 +155,4 @@ public class OknoNauka {
 //        return new ParaSlow(firstWord, secondWord);
 //    }
 
-    public void wyczyscPola() {
-        textFieldWordPl.setText("");
-        textFieldWordEn.setText("");
-        textFieldWordPl.setEnabled(true);
-        textFieldWordEn.setEnabled(true);
-    }
-
-    public void init() {
-        frame.setVisible(true);
-        Optional<UserDto> user = loginController.loggedInUser();
-        flashcards = user.map(flashcardController::flashcardsForUser).orElse(new ArrayList<>());
-        counter = 0;
-    }
 }
