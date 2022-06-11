@@ -15,6 +15,9 @@ public class Rejestracja extends AbstractCredentialWindow {
     @Autowired
     private OknoGlowne oknoGlowne;
 
+    @Autowired
+    private Logowanie logowanie;
+
     public Rejestracja(){
         super("Rejestracja", "Zarejestruj", "Zaloguj się");
         buttonZapiszZarejestruj.addActionListener(e -> {
@@ -25,7 +28,11 @@ public class Rejestracja extends AbstractCredentialWindow {
             } else {
                 JOptionPane.showMessageDialog(frame, "Taki uzytkownik juz istnieje w bazie!");
             }
+        });
 
+        buttonPrzelacz.addActionListener(e -> {
+            ukryjOkno();
+            logowanie.pokazOkno();
         });
     }
 

@@ -21,7 +21,8 @@ public class FlashcardMapper {
         return new Flashcard(
                 flashcardDto.getSlowoPolskie(),
                 flashcardDto.getSlowoAngielskie(),
-                userMapper.mapToUser(flashcardDto.getUserDto()));
+                dbUserService.getUser(flashcardDto.getUserDto().getId()).get()
+        );
     }
 
     public FlashcardDto mapToFlashcardDto(Flashcard flashcard) {

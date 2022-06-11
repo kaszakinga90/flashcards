@@ -1,6 +1,7 @@
 package com.flashcards.domain;
 
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

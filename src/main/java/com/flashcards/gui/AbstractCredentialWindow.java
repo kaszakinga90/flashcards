@@ -1,10 +1,7 @@
 package com.flashcards.gui;
 
-import com.flashcards.domain.dto.UserDto;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
@@ -17,7 +14,7 @@ public abstract class AbstractCredentialWindow {
     protected final JTextField textFieldPassword;
     protected final JLabel labelPassword;
     protected final JButton buttonZapiszZarejestruj;
-    protected final JLabel labelZaloguj;
+    protected final JButton buttonPrzelacz;
     protected JPanel panelGlowny;
 
     public AbstractCredentialWindow(String oknoGlowne, String zapisz, String przelacz){
@@ -28,7 +25,7 @@ public abstract class AbstractCredentialWindow {
         textFieldPassword = new JTextField();
         labelPassword = new JLabel("Podaj haslo");
         buttonZapiszZarejestruj = new JButton(zapisz);
-        labelZaloguj = new JLabel(przelacz);
+        buttonPrzelacz = new JButton(przelacz);
         panelGlowny = new JPanel(new GridLayout(6,1,5,5));
         frame.setContentPane(panelGlowny);
 
@@ -37,7 +34,7 @@ public abstract class AbstractCredentialWindow {
         panelGlowny.add(labelPassword);
         panelGlowny.add(textFieldPassword);
         panelGlowny.add(buttonZapiszZarejestruj);
-        panelGlowny.add(labelZaloguj);
+        panelGlowny.add(buttonPrzelacz);
 
         frame.setLocationRelativeTo(null);
         frame.setResizable(true);

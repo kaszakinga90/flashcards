@@ -17,4 +17,9 @@ public class LoginController {
          return loginService.currentLoggedInUser();
     }
 
+    public boolean login(String email, String password){
+        loginService.zaloguj(email, password);
+        return loginService.currentLoggedInUser().isPresent();
+    }
+
 }

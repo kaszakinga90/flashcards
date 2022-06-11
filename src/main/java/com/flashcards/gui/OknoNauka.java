@@ -1,6 +1,7 @@
 package com.flashcards.gui;
 
 import com.flashcards.controller.FlashcardController;
+import com.flashcards.controller.ImportExportController;
 import com.flashcards.controller.LoginController;
 import com.flashcards.domain.dto.FlashcardDto;
 import com.flashcards.domain.dto.UserDto;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -20,7 +22,8 @@ import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 @Component
 public class OknoNauka {
 
-
+    @Autowired
+    private ImportExportController importExportController;
     private final LoginController loginController;
     private final FlashcardController flashcardController;
     private final JFrame frame;
@@ -94,20 +97,39 @@ public class OknoNauka {
         */
 
         buttonAdd.addActionListener(e -> {
-            wyczyscPola();;
+            wyczyscPola();
+            ;
         });
 
         buttonSave.addActionListener(e -> {
             flashcardController.saveFlashCard(textFieldWordPl.getText(), textFieldWordEn.getText());
+            flashcards.add(new FlashcardDto(null, textFieldWordPl.getText(), textFieldWordEn.getText(), null));
         });
 
-//        zapiszFiszki.addActionListener(e -> {
-//            ObslugaPlikow.zapiszDoPliku();
-//        });
-//
-//        wczytajFiszki.addActionListener(e -> {
-//            ObslugaPlikow.wczytajFiszki(ObslugaPlikow.wybierzPlik());
-//        });
+        zapiszFiszki.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Pliki tekstowe", "txt"));
+            fileChooser.showOpenDialog(frame);
+
+            if(importExportController.zapiszDoPliku(fileChooser.getSelectedFile())){
+                JOptionPane.showMessageDialog(frame, "Pomyslnie zapisano plik");
+            } else {
+                JOptionPane.showMessageDialog(frame, "Nie udało sie zapisac pliku");
+            }
+        });
+
+        wczytajFiszki.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Pliki tekstowe", "txt"));
+            fileChooser.showOpenDialog(frame);
+
+            if(importExportController.wczytajZpliku(fileChooser.getSelectedFile())){
+                flashcards = flashcardController.flashcardsForLoggedInUser();
+                JOptionPane.showMessageDialog(frame, "Pomyslnie wczytano");
+            } else {
+                JOptionPane.showMessageDialog(frame, "Nie udało sie wczytac");
+            }
+        });
     }
 
 
@@ -132,6 +154,7 @@ public class OknoNauka {
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
             }
+
             public void windowClosed(WindowEvent e) {
                 oknoGlowne.setVisible(true);
                 //getOkno().AktywujPrzyciski();
@@ -140,19 +163,5 @@ public class OknoNauka {
         });
     }
 
-
-    //    public ParaSlow aktualnaFiszka() {
-//
-//        String firstWord = textFieldWordPl.getText();
-//        String secondWord = textFieldWordEn.getText();
-//
-//        if (Objects.equals(firstWord, "") || Objects.equals(firstWord, null)) {
-//            JOptionPane.showMessageDialog(null, "Podaj polskie slowo");
-//        } else if (Objects.equals(secondWord, "") || Objects.equals(secondWord, null)) {
-//            JOptionPane.showMessageDialog(null, "Podaj angielskie slowo");
-//        }
-//
-//        return new ParaSlow(firstWord, secondWord);
-//    }
 
 }

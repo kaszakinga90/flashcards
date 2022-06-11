@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
 /** 
@@ -27,66 +28,18 @@ public class OknoGlowne
 
 	@Autowired
 	OknoFiszki oknoFiszki;
-	private JFrame frame;
-	private JPanel panel;
-	private JButton przyciskFiszki;
-	private JButton przyciskFiszkiNauka;
-	private JButton przyciskQuiz;
-	private JButton przyciskStatystyki;
-	private JButton przyciskPomoc;
-	private JLabel tekst;
-	
-	public JFrame getFrame() {
-		return frame;
-	}
 
-	public JButton getPrzyciskFiszkiNauka() {
-		return przyciskFiszkiNauka;
-	}
+	@Autowired
+	OknoStatystyki oknoStatystyki;
 
-	public void setPrzyciskFiszkiNauka(JButton przyciskFiszkiNauka) {
-		this.przyciskFiszkiNauka = przyciskFiszkiNauka;
-	}
-
-	public void setFrame(JFrame frame) {
-		this.frame = frame;
-	}
-	public JPanel getPanel() {
-		return panel;
-	}
-	public void setPanel(JPanel panel) {
-		this.panel = panel;
-	}
-	public JButton getPrzyciskFiszki() {
-		return przyciskFiszki;
-	}
-	public void setPrzyciskFiszki(JButton przyciskFiszki) {
-		this.przyciskFiszki = przyciskFiszki;
-	}
-	public JButton getPrzyciskQuiz() {
-		return przyciskQuiz;
-	}
-	public void setPrzyciskQuiz(JButton przyciskQuiz) {
-		this.przyciskQuiz = przyciskQuiz;
-	}
-	public JButton getPrzyciskStatystyki() {
-		return przyciskStatystyki;
-	}
-	public void setPrzyciskStatystyki(JButton przyciskStatystyki) {
-		this.przyciskStatystyki = przyciskStatystyki;
-	}
-	public JButton getPrzyciskPomoc() {
-		return przyciskPomoc;
-	}
-	public void setPrzyciskPomoc(JButton przyciskPomoc) {
-		this.przyciskPomoc = przyciskPomoc;
-	}
-	public JLabel getTekst() {
-		return tekst;
-	}
-	public void setTekst(JLabel tekst) {
-		this.tekst = tekst;
-	}
+	private final JFrame frame;
+	private final JPanel panel;
+	private final JButton przyciskFiszki;
+	private final JButton przyciskFiszkiNauka;
+	private final JButton przyciskQuiz;
+	private final JButton przyciskStatystyki;
+	private final JButton przyciskPomoc;
+	private final JLabel tekst;
 	
 	public OknoGlowne()
 	{
@@ -139,12 +92,21 @@ public class OknoGlowne
 		panel.add(panel4);
 		
 //		przyciskFiszki.addActionListener(new FiszkiListener(this));
-//		przyciskPomoc.addMouseMotionListener(new PomocListener(this));
+		przyciskPomoc.addMouseMotionListener(new PomocListener(this));
+
 		przyciskFiszkiNauka.addActionListener(e -> {
 			oknoNauka.init(this.frame);
-
-//			this.zamknijOkno();
 		});
+
+		przyciskFiszki.addActionListener(e -> {
+			oknoFiszki.init();
+		});
+
+		przyciskStatystyki.addActionListener(e -> {
+			oknoStatystyki.init(this.frame);
+		});
+
+
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(false);
@@ -160,29 +122,45 @@ public class OknoGlowne
 	
 	public void DezaktywujPrzyciski()
 	{
-		getPrzyciskStatystyki().setEnabled(false);
-		getPrzyciskFiszki().setEnabled(false);
-		getPrzyciskQuiz().setEnabled(false);
-		getPrzyciskPomoc().setEnabled(false);
+		przyciskStatystyki.setEnabled(false);
+		przyciskFiszki.setEnabled(false);
+		przyciskQuiz.setEnabled(false);
+		przyciskPomoc.setEnabled(false);
 	}
 	
 	public void AktywujPrzyciski()
 	{
-		getPrzyciskStatystyki().setEnabled(true);
-		getPrzyciskFiszki().setEnabled(true);
-		getPrzyciskQuiz().setEnabled(true);
-		getPrzyciskPomoc().setEnabled(true);
+		przyciskStatystyki.setEnabled(true);
+		przyciskFiszki.setEnabled(true);
+		przyciskQuiz.setEnabled(true);
+		przyciskPomoc.setEnabled(true);
 	}
 
-	public void addFiszkiNaukaButtonListener(ActionListener al){
-		przyciskFiszkiNauka.addActionListener(al);
-	}
-	public void addStatystykiButtonListener(ActionListener al){
-		przyciskStatystyki.addActionListener(al);
-	}
 
-	public void addPomocButtonListener(MouseMotionListener ml){
-		przyciskPomoc.addMouseMotionListener(ml);
+	private class PomocListener implements MouseMotionListener {
+
+		OknoGlowne okno;
+
+		public PomocListener(OknoGlowne okno) {
+			super();
+			this.okno = okno;
+		}
+
+		public OknoGlowne getOkno() {
+			return okno;
+		}
+
+
+		@Override
+		public void mouseDragged(MouseEvent e) {
+
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e) {
+
+			przyciskPomoc.setToolTipText("Jeœli potrzebujesz pomocy napisz do nas na pomoc@fiszki.com");
+		}
 	}
 	
 }

@@ -7,6 +7,7 @@ import com.flashcards.controller.FlashcardController;
 import com.flashcards.domain.dto.FlashcardDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import stareKlasy.Statystyki;
 import stareKlasy.threads.OdliczanieThread;
 
 import javax.swing.*;
@@ -16,6 +17,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
+
+import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 
 /**
  * Okno do rozwi¹zywania i wprowadzania fiszek
@@ -97,6 +100,7 @@ public class OknoFiszki extends JFrame
 		/**
 		 * Ta metoda zamyka okno "Fiszki" i aktywuje z powrotem okno g³ówne
 		 */
+
 		addWindowListener (new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				czyStart = false;
@@ -172,6 +176,9 @@ public class OknoFiszki extends JFrame
 			JTextField pole1 = new JTextField();
 			JTextField pole2 = new JTextField();
 			boolean jezyk;
+			int wynik = 0;
+			int liczbaFiszek = 0;
+
 
 			if(polski.isSelected())
 			{
@@ -195,12 +202,15 @@ public class OknoFiszki extends JFrame
 					Thread.sleep(5000);
 					if(pole2.getText().equals(polski.isSelected() ? elem.getSlowoAngielskie() : elem.getSlowoPolskie()))
 					{
+						wynik++;
+						liczbaFiszek++;
 						dobraOdpowiedz(pole2);
 						Thread.sleep(1000);
 						wyzerujPole(pole2);
 					}
 					else
 					{
+						liczbaFiszek++;
 						zlaOdpowiedz(pole2, elem, jezyk);
 						Thread.sleep(1000);
 						wyzerujPole(pole2);
@@ -217,6 +227,8 @@ public class OknoFiszki extends JFrame
 					fiszkaPolska.setText("");
 				}
 			}
+			Statystyki.WynikFiszek.add(wynik);
+			Statystyki.RozegraneFiszki.add(liczbaFiszek);
 			if(czyStart) JOptionPane.showMessageDialog(null, "Cykl fiszek zakoñczony!");
 			aktywujPrzyciski();
 		}
@@ -244,5 +256,6 @@ public class OknoFiszki extends JFrame
 			start.setText("START");
 		}
 	}
+
 
 }

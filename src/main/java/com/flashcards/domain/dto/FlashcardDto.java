@@ -1,16 +1,18 @@
 package com.flashcards.domain.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = {"userDto"})
+@EqualsAndHashCode(exclude = {"id", "userDto"})
 public class FlashcardDto {
 
     private Long id;
     private String slowoAngielskie;
     private String slowoPolskie;
     private UserDto userDto;
+
+
 }
