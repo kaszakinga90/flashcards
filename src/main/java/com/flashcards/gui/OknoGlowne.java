@@ -8,9 +8,8 @@ import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
+import java.io.IOException;
 
 /** 
  * Klasa przedstawia pocz¹tkowe okno aplikacji. Zosta³a napisana w Swing.
@@ -35,6 +34,11 @@ public class OknoGlowne
 	@Autowired
 	OknoQuiz oknoQuiz;
 
+	@Autowired
+	SocketKlienta socketKlienta;
+
+
+	public static final String KONIEC_POLACZENIA = "KONIEC POLACZENIA";
 	private final JFrame frame;
 	private final JPanel panel;
 	private final JButton przyciskFiszki;
@@ -43,24 +47,29 @@ public class OknoGlowne
 	private final JButton przyciskStatystyki;
 	private final JButton przyciskPomoc;
 	private final JLabel tekst;
-	
+	private final JLabel tekst2;
+
 	public OknoGlowne()
 	{
 		frame = new JFrame("Aplikacja do nauki angielskiego");
 		panel = new JPanel();
-		frame.setSize(500, 300);
+		frame.setSize(600, 400);
 		frame.setContentPane(panel);
-
-		panel.setLayout(new GridLayout(4, 1, 10, 10));
+		panel.setLayout(new GridLayout(5, 1, 10, 10));
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();
 		JPanel panel3 = new JPanel();
 		JPanel panel4 = new JPanel();
+		JPanel panel5 = new JPanel();
 		panel1.setLayout(new FlowLayout(FlowLayout.TRAILING));
-		panel2.setLayout(new FlowLayout(FlowLayout.CENTER));
-		panel3.setLayout(new GridLayout(2, 2, 20, 20));
-		panel4.setLayout(new FlowLayout(FlowLayout.TRAILING));
+		panel2.setLayout(new GridLayout(2,1,10,10));
+		panel2.setBorder(BorderFactory.createEmptyBorder(0,60,10,60));
+		panel3.setLayout(new FlowLayout(FlowLayout.CENTER));
+		panel4.setLayout(new GridLayout(1, 2, 20, 10));
+		panel4.setBorder(BorderFactory.createEmptyBorder(0,60,10,60));
+		panel5.setLayout(new FlowLayout(FlowLayout.TRAILING));
+
 		
 		Color tlo = new Color(235, 246, 255);
 		panel.setBackground(tlo);
@@ -68,31 +77,35 @@ public class OknoGlowne
 		panel2.setBackground(tlo);
 		panel3.setBackground(tlo);
 		panel4.setBackground(tlo);
+		panel5.setBackground(tlo);
 		
-		przyciskFiszki = new JButton("FISZKI - test");
-		przyciskFiszki.setFont(new Font("Calibri", Font.BOLD, 18));	
-		//przyciskFiszki.setBackground(null);
+		przyciskFiszki = new JButton("Flashcards - test");
+		przyciskFiszki.setFont(new Font("Calibri", Font.BOLD, 18));
 		przyciskQuiz = new JButton("QUIZ");
 		przyciskQuiz.setFont(new Font("Calibri", Font.BOLD, 18));	
-		przyciskStatystyki = new JButton("Statystyki");
+		przyciskStatystyki = new JButton("Statistics");
 		przyciskStatystyki.setFont(new Font("Calibri", Font.BOLD, 14));
 		przyciskPomoc = new JButton("?");
 		przyciskPomoc.setFont(new Font("Calibri", Font.BOLD, 26));	
-		tekst = new JLabel("Æwicz swój angielski!");
-		tekst.setFont(new Font("Calibri", Font.BOLD, 26));
-		przyciskFiszkiNauka = new JButton("Fiszki - nauka");
+		tekst = new JLabel("Learn");
+		tekst.setFont(new Font("Calibri", Font.BOLD, 22));
+		tekst2 = new JLabel("Check yourself");
+		tekst2.setFont(new Font("Calibri", Font.BOLD, 22));
+		przyciskFiszkiNauka = new JButton("Flashcards");
 		
 		panel1.add(przyciskStatystyki);
 		panel2.add(tekst);
-		panel3.add(przyciskFiszki);
-		panel3.add(przyciskQuiz);
-		panel3.add(przyciskFiszkiNauka);
-		panel4.add(przyciskPomoc);
+		panel2.add(przyciskFiszkiNauka);
+		panel3.add(tekst2);
+		panel4.add(przyciskFiszki);
+		panel4.add(przyciskQuiz);
+		panel5.add(przyciskPomoc);
 		
 		panel.add(panel1);
 		panel.add(panel2);
 		panel.add(panel3);
 		panel.add(panel4);
+		panel.add(panel5);
 		
 //		przyciskFiszki.addActionListener(new FiszkiListener(this));
 		przyciskPomoc.addMouseMotionListener(new PomocListener(this));
@@ -102,7 +115,7 @@ public class OknoGlowne
 		});
 
 		przyciskFiszki.addActionListener(e -> {
-			oknoFiszki.init();
+			oknoFiszki.init(this.frame);
 		});
 
 		przyciskStatystyki.addActionListener(e -> {
@@ -110,11 +123,30 @@ public class OknoGlowne
 		});
 
 		przyciskQuiz.addActionListener(e ->
-			oknoQuiz.init(this.frame));
+			oknoQuiz.init(frame));
 
 
 		
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
+		frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				frame.dispose();
+
+			}
+
+			public void windowClosed(WindowEvent e) {
+				socketKlienta.getOut().println(KONIEC_POLACZENIA);
+			}
+		});
+
+
+
+
+
+		frame.setLocationRelativeTo(null);
+		frame.setResizable(false);
 		frame.setVisible(false);
 		
 	}
@@ -143,6 +175,9 @@ public class OknoGlowne
 	}
 
 
+	/**
+	 * Ustawienie tooltipa dla przycisku pomocy
+	 */
 	private class PomocListener implements MouseMotionListener {
 
 		OknoGlowne okno;
@@ -165,7 +200,7 @@ public class OknoGlowne
 		@Override
 		public void mouseMoved(MouseEvent e) {
 
-			przyciskPomoc.setToolTipText("Jeœli potrzebujesz pomocy napisz do nas na pomoc@fiszki.com");
+			przyciskPomoc.setToolTipText("If you need help, please contact us pomoc@fiszki.com");
 		}
 	}
 	

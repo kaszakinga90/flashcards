@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 
+/**
+ * Klasa obslugująca logowanie użytkownika
+ */
 @Component
 public class Logowanie extends  AbstractCredentialWindow {
 
@@ -17,6 +20,7 @@ public class Logowanie extends  AbstractCredentialWindow {
 
     public Logowanie() {
         super("logowanie", "zaloguj", "");
+        ukryjOkno();
         buttonPrzelacz.setEnabled(false);
         buttonZapiszZarejestruj.addActionListener(e -> {
             if(loginController.login(textFieldEmail.getText(), textFieldPassword.getText())){

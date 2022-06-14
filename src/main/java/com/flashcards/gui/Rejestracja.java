@@ -6,6 +6,11 @@ import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 
+/**
+ * Klasa obslugująca rejestrację użytkownika
+ * Z tego miejsca istnieje możliwość przełączenia się na okno logowania
+ * (z myślą o użytkownikach uprzednio zarejestrowanych)
+ */
 @Component
 public class Rejestracja extends AbstractCredentialWindow {
 

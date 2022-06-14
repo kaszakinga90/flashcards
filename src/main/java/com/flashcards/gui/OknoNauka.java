@@ -50,7 +50,7 @@ public class OknoNauka {
         this.flashcardController = flashcardController;
 
         frame = new JFrame("Nauka");
-        frame.setSize(500, 400);
+        frame.setSize(600, 400);
         panel = new JPanel();
         frame.setContentPane(panel);
         panel.setLayout(new GridLayout(5, 2, 10, 10));
@@ -129,6 +129,9 @@ public class OknoNauka {
                 JOptionPane.showMessageDialog(frame, "Nie udało sie wczytac");
             }
         });
+
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
     }
 
 
@@ -147,11 +150,13 @@ public class OknoNauka {
     }
 
     public void init(JFrame oknoGlowne) {
+        oknoGlowne.setVisible(false);
         frame.setVisible(true);
         flashcards = flashcardController.flashcardsForLoggedInUser();
         counter = 0;
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
+                oknoGlowne.setVisible(true);
             }
 
             public void windowClosed(WindowEvent e) {

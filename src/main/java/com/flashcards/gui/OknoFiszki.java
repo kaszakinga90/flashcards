@@ -18,14 +18,16 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 
+import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
+
 /**
  * Okno do rozwi¹zywania i wprowadzania fiszek
- * Jego otwarcie powoduje zablokowanie przycisków w oknie g³ównym
- * Zamkniêcie okna fiszek powoduje odblokowanie przycisków w oknie g³ównym
+ * Jego otwarcie powoduje ukrycie okna g³ównego
+ * Zamkniêcie okna fiszek powoduje pokazanie okna g³ównego
  * Zamkniêcie okna fiszek NIE powoduje zamkniêcia ca³ego programu
  */
 @Component
-public class OknoFiszki extends JFrame
+public class OknoFiszki
 {
 	private JTextField fiszkaAngielska;
 	private JTextField fiszkaPolska;
@@ -34,6 +36,7 @@ public class OknoFiszki extends JFrame
 	private JButton start;
 	private JButton zakoncz;
 	private boolean czyStart;
+	private final JFrame frame;
 
 	private List<FlashcardDto> flashcards = List.of();
 
@@ -43,14 +46,13 @@ public class OknoFiszki extends JFrame
 	@Autowired
 	private FiszkiTestWynikController fiszkiTestWynikController;
 
-
 	public OknoFiszki()
 	{
-		super("Fiszki");
-		setSize(500, 300);
+		frame = new JFrame("Fiszki - test");
+		frame.setSize(600, 400);
 		JPanel panelGlowny = new JPanel(new GridLayout(5, 1, 10, 10));
 		panelGlowny.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		setContentPane(panelGlowny);
+		frame.setContentPane(panelGlowny);
 
 		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();
@@ -98,37 +100,51 @@ public class OknoFiszki extends JFrame
 		zakoncz.addActionListener(startListener);
 
 		//setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		/**
-		 * Ta metoda zamyka okno "Fiszki" i aktywuje z powrotem okno g³ówne
-		 */
 
-		addWindowListener (new WindowAdapter() {
+
+		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				czyStart = false;
-				dispose();
+				frame.dispose();
 			}
+		});
+
+		frame.setLocationRelativeTo(null);
+		frame.setResizable(false);
+		frame.setVisible(false);
+	}
+
+	/**
+	 * Ta metoda inicjalizuje pojawienie siê okna dla fiszek-testów
+	 * Zbiór fiszek jest indywidualny dla ka¿dego u¿ytkownika
+	 */
+	public void init(JFrame oknoGlowne){
+		//oknoGlowne.setVisible(false);
+		flashcards = flashcardController.flashcardsForLoggedInUser();
+
+		if(flashcards.size() < 5){
+			oknoGlowne.setVisible(true);
+			JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Nie mozna przeprowadzic testu. W bazie musi byc conajmniej 5 fiszek!");
+			czyStart = false;
+			frame.setVisible(false);
+			oknoGlowne.setVisible(true);
+		} else {
+			czyStart = true;
+			frame.setVisible(true);
+			JOptionPane.showMessageDialog(null, "Wybierz jêzyk, w którym chcesz rozwi¹zywaæ fiszki. Nastêpnie naciœnij <Start> i odgadnij 5 s³ów!");
+		}
+
+		frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				oknoGlowne.setVisible(true);
+			}
+
 			public void windowClosed(WindowEvent e) {
+				oknoGlowne.setVisible(true);
 				//getOkno().AktywujPrzyciski();
 //				okno.pokazOkno();
 			}
 		});
-		setVisible(false);
-	}
-
-	public void init(){
-		flashcards = flashcardController.flashcardsForLoggedInUser();
-
-		if(flashcards.size() < 5){
-			JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Nie mozna przeprowadzic testu. W bazie musi byc conajmniej 5 fiszek!");
-			czyStart = false;
-			setVisible(false);
-		} else {
-			czyStart = true;
-			setVisible(true);
-			JOptionPane.showMessageDialog(null, "Wybierz jêzyk, w którym chcesz rozwi¹zywaæ fiszki. Nastêpnie naciœnij <Start> i odgadnij 5 s³ów!");
-		}
-
-
 
 	}
 
@@ -146,11 +162,6 @@ public class OknoFiszki extends JFrame
 			{
 				if(e.getActionCommand().equals("START") && start.getText().equals("START"))
 				{
-					/*
-
-
-					tutaj do sprawdzenia czy sa fiszki
-					 */
 
 						if((polski.isSelected() && !angielski.isSelected())
 								|| (!polski.isSelected() && angielski.isSelected()))
@@ -160,12 +171,13 @@ public class OknoFiszki extends JFrame
 							czyStart = true;
 							new FiszkiThread().start();
 						}
-
-
-
 				}
-				if(e.getActionCommand().equals("Zakoñcz"))
+				if(e.getActionCommand().equals("Zakoñcz")){
 					czyStart = false;
+				}
+
+
+
 			}
 			catch(Exception ex)
 			{

@@ -72,12 +72,12 @@ public class OknoQuiz
     public OknoQuiz()
     {
         frame = new JFrame("QUIZ");
-        frame.setSize(600, 300);
+        frame.setSize(600, 400);
         panel = new JPanel();
         frame.setContentPane(panel);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         panel.setLayout(new GridLayout(4, 1, 10, 10));
-        JOptionPane.showMessageDialog(null, "Po naciœniêciu przycisku <Start> zobaczysz 5 pytañ. Wybierz jedn¹ z odpowiedzi: A, B, C, D (mo¿esz u¿yæ klawiatury!). Na odpowiedz masz 10 sekund. Powodzenia :)");
+
         tekstPytania = new JTextArea("Tutaj pojawi siê treœæ pytania.");
         tekstPytania.setEditable(false);
         tekstOdpA = new JTextField(20);
@@ -133,6 +133,9 @@ public class OknoQuiz
             }
         });
 
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
+
         frame.setVisible(false);
     }
 
@@ -174,6 +177,7 @@ public class OknoQuiz
 
     public void init(JFrame oknoGlowne) {
         frame.setVisible(true);
+        JOptionPane.showMessageDialog(null, "Po naciœniêciu przycisku <Start> zobaczysz 5 pytañ. Wybierz jedn¹ z odpowiedzi: A, B, C, D (mo¿esz u¿yæ klawiatury!). Na odpowiedz masz 10 sekund. Powodzenia :)");
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
             }

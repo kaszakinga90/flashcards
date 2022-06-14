@@ -19,14 +19,15 @@ public abstract class AbstractCredentialWindow {
 
     public AbstractCredentialWindow(String oknoGlowne, String zapisz, String przelacz){
         frame = new JFrame(oknoGlowne);
-        frame.setSize(300,250);
+        frame.setSize(300,400);
         textFieldEmail = new JTextField();
         labelEmail = new JLabel("Podaj email");
         textFieldPassword = new JTextField();
         labelPassword = new JLabel("Podaj haslo");
         buttonZapiszZarejestruj = new JButton(zapisz);
         buttonPrzelacz = new JButton(przelacz);
-        panelGlowny = new JPanel(new GridLayout(6,1,5,5));
+        panelGlowny = new JPanel(new GridLayout(6,1,5,10));
+        panelGlowny.setBorder(BorderFactory.createEmptyBorder(30,10,30,10));
         frame.setContentPane(panelGlowny);
 
         panelGlowny.add(labelEmail);

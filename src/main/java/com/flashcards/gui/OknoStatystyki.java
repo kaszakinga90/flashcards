@@ -52,7 +52,7 @@ public class OknoStatystyki
     {
         frame = new JFrame("Statystyki");
 //        this.okno = okno;
-        frame.setSize(500, 300);
+        frame.setSize(600, 400);
         panel = new JPanel();
         frame.setContentPane(panel);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -87,6 +87,9 @@ public class OknoStatystyki
         panelFiszki.add(wynikFiszki);
         panelQuiz.add(scroll2);
         panelQuiz.add(wynikQuiz);
+
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
 
         aktualizujFiszki();
         aktualizujQuiz();
