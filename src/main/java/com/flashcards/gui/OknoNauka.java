@@ -75,9 +75,15 @@ public class OknoNauka {
 
 
         buttonNext.addActionListener(e -> {
-            counter++;
-            counter %= flashcards.size();
-            wyswietlFiszke(flashcards.get(counter));
+            if (flashcards.size() == 0) {
+                JOptionPane.showMessageDialog(frame, "Brak fiszek");
+            } else {
+                counter++;
+                counter %= flashcards.size();
+                wyswietlFiszke(flashcards.get(counter));
+            }
+
+
         });
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -89,21 +95,14 @@ public class OknoNauka {
         frame.setVisible(false);
 
 
-
-
-        /*
-        poniżej nowy kod
-
-        */
-
         buttonAdd.addActionListener(e -> {
             wyczyscPola();
-            ;
         });
 
         buttonSave.addActionListener(e -> {
-            flashcardController.saveFlashCard(textFieldWordPl.getText(), textFieldWordEn.getText());
-            flashcards.add(new FlashcardDto(null, textFieldWordPl.getText(), textFieldWordEn.getText(), null));
+            if(flashcardController.saveFlashCard(textFieldWordPl.getText(), textFieldWordEn.getText())){
+                flashcards.add(new FlashcardDto(null, textFieldWordPl.getText(), textFieldWordEn.getText(), null));
+            }
         });
 
         zapiszFiszki.addActionListener(e -> {
@@ -111,7 +110,7 @@ public class OknoNauka {
             fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Pliki tekstowe", "txt"));
             fileChooser.showOpenDialog(frame);
 
-            if(importExportController.zapiszDoPliku(fileChooser.getSelectedFile())){
+            if (importExportController.zapiszDoPliku(fileChooser.getSelectedFile())) {
                 JOptionPane.showMessageDialog(frame, "Pomyslnie zapisano plik");
             } else {
                 JOptionPane.showMessageDialog(frame, "Nie udało sie zapisac pliku");
@@ -123,7 +122,7 @@ public class OknoNauka {
             fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Pliki tekstowe", "txt"));
             fileChooser.showOpenDialog(frame);
 
-            if(importExportController.wczytajZpliku(fileChooser.getSelectedFile())){
+            if (importExportController.wczytajZpliku(fileChooser.getSelectedFile())) {
                 flashcards = flashcardController.flashcardsForLoggedInUser();
                 JOptionPane.showMessageDialog(frame, "Pomyslnie wczytano");
             } else {

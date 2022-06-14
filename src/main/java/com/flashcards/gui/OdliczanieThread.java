@@ -1,4 +1,4 @@
-package stareKlasy.threads;
+package com.flashcards.gui;
 
 import javax.swing.*;
 

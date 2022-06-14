@@ -43,7 +43,7 @@ public class ImportExportController {
             System.out.println(existingFlashcards);
             lines
                     .filter(l -> l.contains(";"))
-
+                    .distinct()
                     .map(l -> l.split(";"))
                     .map(arr -> new FlashcardDto(null, arr[0], arr[1], loginService.currentLoggedInUser().get()))
                     .filter(fl -> !existingFlashcards.contains(fl))

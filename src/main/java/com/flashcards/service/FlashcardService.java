@@ -22,7 +22,11 @@ public class FlashcardService {
         return flashcardMapper.mapToFlashcardDtoList(flashcardRepository.findByUser(userDto));
     }
 
-    public void saveFlashcardForUser(FlashcardDto flashcardDto){
+    public boolean saveFlashcardForUser(FlashcardDto flashcardDto){
+        if(flashcardDto.getSlowoPolskie().isBlank() || flashcardDto.getSlowoAngielskie().isBlank()){
+            return false;
+        }
         flashcardRepository.save(flashcardMapper.mapToFlashcard(flashcardDto));
+        return true;
     }
 }

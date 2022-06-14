@@ -1,6 +1,8 @@
-package stareKlasy;
+package com.flashcards.gui;
 
-public class PytanieQuiz 
+import com.flashcards.gui.Odpowiedz;
+
+public class PytanieQuiz
 {
 	private String pytanie;
 	private Odpowiedz odp1;

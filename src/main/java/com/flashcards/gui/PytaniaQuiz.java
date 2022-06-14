@@ -1,4 +1,4 @@
-package stareKlasy;
+package com.flashcards.gui;
 
 import java.util.ArrayList;
 import java.util.List;

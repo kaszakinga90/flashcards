@@ -1,7 +1,9 @@
 package com.flashcards.gui;
 
 
+import com.flashcards.controller.FiszkiTestWynikController;
 import com.flashcards.gui.OknoGlowne;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import stareKlasy.Statystyki;
 
@@ -29,6 +31,9 @@ public class OknoStatystyki
     private final JTextArea poleQuiz;
     private final JTextField wynikFiszki;
     private final JTextField wynikQuiz;
+
+    @Autowired
+    private FiszkiTestWynikController fiszkiTestWynikController;
 //    private OknoGlowne okno;
 //
 //    public OknoGlowne getOkno() {
@@ -123,6 +128,8 @@ public class OknoStatystyki
 
     public void init(JFrame oknoGlowne) {
         frame.setVisible(true);
+        wynikFiszki.setText(String.valueOf(fiszkiTestWynikController.fiszkiTestWynikForLoggedInUser()));
+
 
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {

@@ -24,6 +24,7 @@ public class Rejestracja extends AbstractCredentialWindow {
             if(registerController.register(textFieldEmail.getText(), textFieldPassword.getText())){
                 JOptionPane.showMessageDialog(frame, "pomyslnie zarejestrowano");
                 ukryjOkno();
+                logowanie.ukryjOkno();
                 oknoGlowne.pokazOkno();
             } else {
                 JOptionPane.showMessageDialog(frame, "Taki uzytkownik juz istnieje w bazie!");
@@ -33,6 +34,7 @@ public class Rejestracja extends AbstractCredentialWindow {
         buttonPrzelacz.addActionListener(e -> {
             ukryjOkno();
             logowanie.pokazOkno();
+
         });
     }
 

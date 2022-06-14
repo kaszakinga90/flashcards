@@ -3,12 +3,12 @@ package com.flashcards.gui;
 //import listeners.JezykCheckListener;
 //import listeners.StartFiszkiListener;
 
+import com.flashcards.controller.FiszkiTestWynikController;
 import com.flashcards.controller.FlashcardController;
 import com.flashcards.domain.dto.FlashcardDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import stareKlasy.Statystyki;
-import stareKlasy.threads.OdliczanieThread;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,8 +17,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
-
-import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 
 /**
  * Okno do rozwi¹zywania i wprowadzania fiszek
@@ -41,6 +39,9 @@ public class OknoFiszki extends JFrame
 
 	@Autowired
 	private FlashcardController flashcardController;
+
+	@Autowired
+	private FiszkiTestWynikController fiszkiTestWynikController;
 
 
 	public OknoFiszki()
@@ -227,7 +228,8 @@ public class OknoFiszki extends JFrame
 					fiszkaPolska.setText("");
 				}
 			}
-			Statystyki.WynikFiszek.add(wynik);
+			fiszkiTestWynikController.saveFiskiTestWynik(wynik, liczbaFiszek);
+
 			Statystyki.RozegraneFiszki.add(liczbaFiszek);
 			if(czyStart) JOptionPane.showMessageDialog(null, "Cykl fiszek zakoñczony!");
 			aktywujPrzyciski();

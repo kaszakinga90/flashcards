@@ -1,4 +1,4 @@
-package stareKlasy;
+package com.flashcards.gui;
 
 public class Odpowiedz 
 {

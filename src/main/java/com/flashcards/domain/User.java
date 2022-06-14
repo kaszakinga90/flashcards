@@ -32,6 +32,22 @@ public class User {
     )
     private List<Flashcard> flashcards = new ArrayList<>();
 
+    @OneToMany(
+            targetEntity = FiszkiTestWynik.class,
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    private List<FiszkiTestWynik> fiszkiTestWynik = new ArrayList<>();
+
+    @OneToMany(
+            targetEntity = QuizWynik.class,
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    private List<QuizWynik> quizWynik = new ArrayList<>();
+
     public User(Long id, String email, String password){
         this.email = email;
         this.password = password;

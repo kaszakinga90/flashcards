@@ -7,12 +7,10 @@ import lombok.*;
 @NoArgsConstructor
 @ToString(exclude = {"userDto"})
 @EqualsAndHashCode(exclude = {"id", "userDto"})
-public class FlashcardDto {
+public class FiszkiTestWynikDto {
 
     private Long id;
-    private String slowoPolskie;
-    private String slowoAngielskie;
+    private int wynik;
+    private int liczbaFiszek;
     private UserDto userDto;
-
-
 }

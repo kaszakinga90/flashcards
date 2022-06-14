@@ -34,13 +34,13 @@ public class FlashcardMapper {
     }
 
 
-    public List<FlashcardDto> mapToFlashcardDtoList(final List<Flashcard> orderList) {
-        return  orderList.stream()
-                .map(o -> new FlashcardDto(
-                        o.getId(),
-                        o.getSlowoPolskie(),
-                        o.getSlowoAngielskie(),
-                        userMapper.mapToUserDto(o.getUser())))
+    public List<FlashcardDto> mapToFlashcardDtoList(final List<Flashcard> flashcardList) {
+        return  flashcardList.stream()
+                .map(f -> new FlashcardDto(
+                        f.getId(),
+                        f.getSlowoPolskie(),
+                        f.getSlowoAngielskie(),
+                        userMapper.mapToUserDto(f.getUser())))
                 .collect(Collectors.toList());
     }
 }

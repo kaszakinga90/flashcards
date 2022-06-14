@@ -28,9 +28,10 @@ public class FlashcardController {
                 .orElse(List.of());
     }
 
-    public void saveFlashCard(String slowoPl, String slowoEn){
-        loginService.currentLoggedInUser().ifPresent(u ->
-                flashcardService.saveFlashcardForUser(new FlashcardDto(null, slowoPl,slowoEn, u)));
+    public boolean saveFlashCard(String slowoPl, String slowoEn){
+        return loginService.currentLoggedInUser()
+                .map(u -> flashcardService.saveFlashcardForUser(new FlashcardDto(null, slowoPl,slowoEn, u)))
+                .orElse(false);
     }
 
 

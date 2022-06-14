@@ -32,6 +32,9 @@ public class OknoGlowne
 	@Autowired
 	OknoStatystyki oknoStatystyki;
 
+	@Autowired
+	OknoQuiz oknoQuiz;
+
 	private final JFrame frame;
 	private final JPanel panel;
 	private final JButton przyciskFiszki;
@@ -105,6 +108,9 @@ public class OknoGlowne
 		przyciskStatystyki.addActionListener(e -> {
 			oknoStatystyki.init(this.frame);
 		});
+
+		przyciskQuiz.addActionListener(e ->
+			oknoQuiz.init(this.frame));
 
 
 		
