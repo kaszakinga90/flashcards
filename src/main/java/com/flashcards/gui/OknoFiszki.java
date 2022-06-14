@@ -118,8 +118,18 @@ public class OknoFiszki extends JFrame
 	public void init(){
 		flashcards = flashcardController.flashcardsForLoggedInUser();
 
-		setVisible(true);
-		JOptionPane.showMessageDialog(null, "Wybierz jêzyk, w którym chcesz rozwi¹zywaæ fiszki. Nastêpnie naciœnij <Start> i odgadnij 5 s³ów!");
+		if(flashcards.size() < 5){
+			JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Nie mozna przeprowadzic testu. W bazie musi byc conajmniej 5 fiszek!");
+			czyStart = false;
+			setVisible(false);
+		} else {
+			czyStart = true;
+			setVisible(true);
+			JOptionPane.showMessageDialog(null, "Wybierz jêzyk, w którym chcesz rozwi¹zywaæ fiszki. Nastêpnie naciœnij <Start> i odgadnij 5 s³ów!");
+		}
+
+
+
 	}
 
 	/**
@@ -136,14 +146,23 @@ public class OknoFiszki extends JFrame
 			{
 				if(e.getActionCommand().equals("START") && start.getText().equals("START"))
 				{
-					if((polski.isSelected() && !angielski.isSelected())
-							|| (!polski.isSelected() && angielski.isSelected()))
-					{
-						dezaktywujPrzyciski();
-						//System.out.println("Zgadywanie angielskich s³ów");
-						czyStart = true;
-						new FiszkiThread().start();
-					}
+					/*
+
+
+					tutaj do sprawdzenia czy sa fiszki
+					 */
+
+						if((polski.isSelected() && !angielski.isSelected())
+								|| (!polski.isSelected() && angielski.isSelected()))
+						{
+							dezaktywujPrzyciski();
+							//System.out.println("Zgadywanie angielskich s³ów");
+							czyStart = true;
+							new FiszkiThread().start();
+						}
+
+
+
 				}
 				if(e.getActionCommand().equals("Zakoñcz"))
 					czyStart = false;
@@ -230,7 +249,7 @@ public class OknoFiszki extends JFrame
 			}
 			fiszkiTestWynikController.saveFiskiTestWynik(wynik, liczbaFiszek);
 
-			Statystyki.RozegraneFiszki.add(liczbaFiszek);
+//			Statystyki.RozegraneFiszki.add(liczbaFiszek);
 			if(czyStart) JOptionPane.showMessageDialog(null, "Cykl fiszek zakoñczony!");
 			aktywujPrzyciski();
 		}

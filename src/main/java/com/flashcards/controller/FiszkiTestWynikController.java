@@ -26,7 +26,7 @@ public class FiszkiTestWynikController {
                 .orElseThrow();
     }
 
-    public void saveFiskiTestWynik(int wynik, int liczbaFiszek){
+    public void saveFiskiTestWynik(double wynik, double liczbaFiszek){
         loginService.currentLoggedInUser().ifPresent(u ->
                 fiszkiTestWynikService.saveFiszkiTestWynikForUser(new FiszkiTestWynikDto(null, wynik, liczbaFiszek, u)));
     }

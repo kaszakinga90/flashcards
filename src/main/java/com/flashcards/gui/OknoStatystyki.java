@@ -3,6 +3,7 @@ package com.flashcards.gui;
 
 import com.flashcards.controller.FiszkiTestWynikController;
 import com.flashcards.gui.OknoGlowne;
+import com.flashcards.repository.FiszkiTestWynikRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import stareKlasy.Statystyki;
@@ -34,6 +35,9 @@ public class OknoStatystyki
 
     @Autowired
     private FiszkiTestWynikController fiszkiTestWynikController;
+
+    @Autowired
+    private FiszkiTestWynikRepository fiszkiTestWynikRepository;
 //    private OknoGlowne okno;
 //
 //    public OknoGlowne getOkno() {
@@ -128,7 +132,15 @@ public class OknoStatystyki
 
     public void init(JFrame oknoGlowne) {
         frame.setVisible(true);
-        wynikFiszki.setText(String.valueOf(fiszkiTestWynikController.fiszkiTestWynikForLoggedInUser()));
+        //wynikFiszki.setText(String.valueOf(fiszkiTestWynikController.fiszkiTestWynikForLoggedInUser()));
+
+        if(fiszkiTestWynikRepository.getLiczbaFiszek()==0){
+            wynikFiszki.setText("Brak wynikow");
+        } else {
+            double result = fiszkiTestWynikRepository.getWyniki()/fiszkiTestWynikRepository.getLiczbaFiszek();
+            result *= 100;
+            wynikFiszki.setText(result + "%");
+        }
 
 
         frame.addWindowListener(new WindowAdapter() {

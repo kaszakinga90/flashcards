@@ -10,7 +10,7 @@ import lombok.*;
 public class FiszkiTestWynikDto {
 
     private Long id;
-    private int wynik;
-    private int liczbaFiszek;
+    private double wynik;
+    private double liczbaFiszek;
     private UserDto userDto;
 }

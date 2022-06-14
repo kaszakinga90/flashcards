@@ -20,16 +20,16 @@ public class FiszkiTestWynik {
     private Long id;
 
     @Column(name = "wynik")
-    private int wynik;
+    private double wynik;
 
     @Column(name = "liczba_fiszek")
-    private int liczbaFiszek;
+    private double liczbaFiszek;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    public FiszkiTestWynik(int wynik, int liczbaFiszek, User user){
+    public FiszkiTestWynik(double wynik, double liczbaFiszek, User user){
         this.wynik = wynik;
         this.liczbaFiszek = liczbaFiszek;
         this.user = user;
