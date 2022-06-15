@@ -1,13 +1,9 @@
 package com.flashcards.gui;
 
-import com.flashcards.controller.FiszkiTestWynikController;
-import com.flashcards.domain.FiszkiTestWynik;
 import com.flashcards.repository.FiszkiTestWynikRepository;
 import com.flashcards.repository.QuizWynikRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import stareKlasy.Statystyki;
-
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
@@ -37,9 +33,6 @@ public class OknoStatystyki {
     @Autowired
     private QuizWynikRepository quizWynikRepository;
 
-    @Autowired
-    private FiszkiTestWynikController fiszkiTestWynikController;
-
     public OknoStatystyki() {
         frame = new JFrame("Statistics");
         frame.setSize(600, 400);
@@ -56,7 +49,9 @@ public class OknoStatystyki {
         label1 = new JLabel("Flashcards - results");
         label2 = new JLabel("Quiz - results");
         poleFiszki = new JTextArea(5, 30);
+        poleFiszki.append("Detailed test results will be posted here in the future");
         poleQuiz = new JTextArea(5, 30);
+        poleQuiz.append("Detailed test results will be posted here in the future");
         wynikFiszki = new JTextField(30);
         wynikQuiz = new JTextField(30);
         JScrollPane scroll1 = new JScrollPane(poleFiszki);
@@ -81,12 +76,8 @@ public class OknoStatystyki {
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
 
-        aktualizujFiszki();
-        aktualizujQuiz();
-
         zamknijOkno();
     }
-
 
     private void zamknijOkno() {
 //        frame.addWindowListener (new WindowAdapter() {
@@ -98,22 +89,6 @@ public class OknoStatystyki {
 //            }
 //        });
 //        frame.setVisible(true);
-    }
-
-    private void aktualizujFiszki() {
-        if (!Statystyki.RozegraneFiszki.isEmpty()) {
-            for (int i = 1; i <= Statystyki.WynikFiszek.size(); i++)
-                poleFiszki.append("Partia fiszek nr " + i + ": " + Statystyki.WynikFiszek.get(i - 1) + "/" + Statystyki.RozegraneFiszki.get(i - 1) + "\n");
-            wynikFiszki.setText("Wszystkie zdobyte punkty: " + Statystyki.CalkowityWynik(Statystyki.WynikFiszek) + "/" + Statystyki.CalkowityWynik(Statystyki.RozegraneFiszki));
-        }
-    }
-
-    private void aktualizujQuiz() {
-        if (!Statystyki.RozegraneFiszki.isEmpty()) {
-            for (int i = 1; i <= Statystyki.WynikQuizu.size(); i++)
-                poleQuiz.append("Partia quizu nr " + i + ": " + Statystyki.WynikQuizu.get(i - 1) + "/" + Statystyki.RozegraneQuizy.get(i - 1) + "\n");
-            wynikQuiz.setText("Wszystkie zdobyte punkty: " + Statystyki.CalkowityWynik(Statystyki.WynikQuizu) + "/" + Statystyki.CalkowityWynik(Statystyki.RozegraneQuizy));
-        }
     }
 
     /**

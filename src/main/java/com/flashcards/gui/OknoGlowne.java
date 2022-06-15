@@ -56,21 +56,27 @@ public class OknoGlowne {
         JPanel panel3 = new JPanel();
         JPanel panel4 = new JPanel();
         JPanel panel5 = new JPanel();
+
+        tekst = new JLabel("Learn");
+        tekst.setHorizontalAlignment(SwingConstants.CENTER);
+        tekst.setFont(new Font("Calibri", Font.BOLD, 24));
+        tekst2 = new JLabel("Check yourself");
+        tekst2.setHorizontalAlignment(SwingConstants.CENTER);
+        tekst2.setFont(new Font("Calibri", Font.BOLD, 24));
+
         panel1.setLayout(new FlowLayout(FlowLayout.TRAILING));
-        panel2.setLayout(new GridLayout(2, 1, 10, 10));
-        panel2.setBorder(BorderFactory.createEmptyBorder(0, 60, 10, 60));
-        panel3.setLayout(new FlowLayout(FlowLayout.CENTER));
-        panel4.setLayout(new GridLayout(1, 2, 20, 10));
-        panel4.setBorder(BorderFactory.createEmptyBorder(0, 60, 10, 60));
+        panel2.setLayout(new GridLayout(1, 2, 20, 20));
+        panel3.setLayout(new GridLayout(1, 2, 20, 20));
+        panel4.setLayout(new GridLayout(1, 2, 20, 20));
         panel5.setLayout(new FlowLayout(FlowLayout.TRAILING));
 
-        Color tlo = new Color(235, 246, 255);
-        panel.setBackground(tlo);
-        panel1.setBackground(tlo);
-        panel2.setBackground(tlo);
-        panel3.setBackground(tlo);
-        panel4.setBackground(tlo);
-        panel5.setBackground(tlo);
+        panel.setBackground(Kolory.Tlo);
+        panel1.setBackground(Kolory.Tlo);
+        panel2.setBackground(Kolory.Tlo);
+        panel2.setBackground(Kolory.Tlo);
+        panel3.setBackground(Kolory.Tlo);
+        panel4.setBackground(Kolory.Tlo);
+        panel5.setBackground(Kolory.Tlo);
 
         przyciskFiszki = new JButton("Flashcards - test");
         przyciskFiszki.setFont(new Font("Calibri", Font.BOLD, 18));
@@ -79,18 +85,16 @@ public class OknoGlowne {
         przyciskStatystyki = new JButton("Statistics");
         przyciskStatystyki.setFont(new Font("Calibri", Font.BOLD, 14));
         przyciskPomoc = new JButton("?");
-        przyciskPomoc.setFont(new Font("Calibri", Font.BOLD, 26));
-        tekst = new JLabel("Learn");
-        tekst.setFont(new Font("Calibri", Font.BOLD, 22));
-        tekst2 = new JLabel("Check yourself");
-        tekst2.setFont(new Font("Calibri", Font.BOLD, 22));
+        przyciskPomoc.setFont(new Font("Calibri", Font.BOLD, 24));
         przyciskFiszkiNauka = new JButton("Flashcards");
+        przyciskFiszkiNauka.setFont(new Font("Calibri", Font.BOLD, 18));
 
         panel1.add(przyciskStatystyki);
         panel2.add(tekst);
-        panel2.add(przyciskFiszkiNauka);
-        panel3.add(tekst2);
-        panel4.add(przyciskFiszki);
+        panel2.add(tekst2);
+        panel3.add(przyciskFiszkiNauka);
+        panel3.add(przyciskFiszki);
+        panel4.add(new JLabel());
         panel4.add(przyciskQuiz);
         panel5.add(przyciskPomoc);
 
@@ -202,7 +206,7 @@ public class OknoGlowne {
 
         @Override
         public void mouseMoved(MouseEvent e) {
-            przyciskPomoc.setToolTipText("If you need help, please contact us pomoc@fiszki.com");
+            przyciskPomoc.setToolTipText("If you need help, please contact us:  pomoc@fiszki.com");
         }
     }
 }

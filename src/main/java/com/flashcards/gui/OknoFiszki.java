@@ -46,6 +46,7 @@ public class OknoFiszki {
         frame.setSize(600, 400);
         JPanel panelGlowny = new JPanel(new GridLayout(5, 1, 10, 10));
         panelGlowny.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panelGlowny.setBackground(Kolory.Tlo);
         frame.setContentPane(panelGlowny);
 
         JPanel panel1 = new JPanel();
@@ -58,6 +59,11 @@ public class OknoFiszki {
         panel3.setLayout(new FlowLayout(FlowLayout.CENTER));
         panel4.setLayout(new FlowLayout());
         panel5.setLayout(new FlowLayout(FlowLayout.CENTER));
+        panel1.setBackground(Kolory.Tlo);
+        panel2.setBackground(Kolory.Tlo);
+        panel3.setBackground(Kolory.Tlo);
+        panel4.setBackground(Kolory.Tlo);
+        panel5.setBackground(Kolory.Tlo);
 
         fiszkaPolska = new JTextField(15);
         fiszkaAngielska = new JTextField(15);
@@ -66,6 +72,8 @@ public class OknoFiszki {
         start = new JButton("START");
         zakoncz = new JButton("End");
 
+        polski.setBackground(Kolory.Tlo);
+        angielski.setBackground(Kolory.Tlo);
         JLabel fiszki = new JLabel("FLASHCARDS");
         fiszki.setFont(new Font("Calibri", Font.BOLD, 26));
 
@@ -214,7 +222,7 @@ public class OknoFiszki {
                     }
                 } catch (InterruptedException e) {
                     System.out.println("The thread stops");
-                    break;    //wyskakuje z for
+                    break;
                 } finally {
                     fiszkaAngielska.setText("");
                     fiszkaPolska.setText("");
@@ -223,7 +231,7 @@ public class OknoFiszki {
             fiszkiTestWynikController.saveFiskiTestWynik(wynik, liczbaFiszek);
 
 //			Statystyki.RozegraneFiszki.add(liczbaFiszek);
-            if (czyStart) JOptionPane.showMessageDialog(null, "Series completed!");
+            if (czyStart) JOptionPane.showMessageDialog(null, "Series completed! Your result: " + wynik + "/" + liczbaFiszek);
             aktywujPrzyciski();
         }
 

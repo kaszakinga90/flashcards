@@ -1,6 +1,5 @@
 package com.flashcards.gui;
 
-import com.flashcards.gui.Odpowiedz;
 
 public class PytanieQuiz {
 	private String pytanie;

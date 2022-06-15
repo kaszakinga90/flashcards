@@ -7,11 +7,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.*;
-
-import com.flashcards.controller.FiszkiTestWynikController;
-import com.flashcards.controller.FlashcardController;
 import com.flashcards.controller.QuizWynikController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -91,9 +87,11 @@ public class OknoQuiz {
         frame.setContentPane(panel);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         panel.setLayout(new GridLayout(4, 1, 10, 10));
+        panel.setBackground(Kolory.Tlo);
 
         tekstPytania = new JTextArea("The text of the question will appear here.");
         tekstPytania.setEditable(false);
+        tekstPytania.setFont(new Font("Calibri", Font.PLAIN, 18));
         tekstOdpA = new JTextField(20);
         tekstOdpA.setEditable(false);
         tekstOdpB = new JTextField(20);
@@ -107,6 +105,7 @@ public class OknoQuiz {
         buttonC = new JButton(" C ");
         buttonD = new JButton(" D ");
         startQuiz = new JButton("START");
+        startQuiz.setFont(new Font("Calibri", Font.BOLD, 18));
 
         JPanel panelOdpowiedzi1 = new JPanel();
         JPanel panelOdpowiedzi2 = new JPanel();
@@ -118,6 +117,11 @@ public class OknoQuiz {
         panel.add(panelOdpowiedzi1);
         panel.add(panelOdpowiedzi2);
         panel.add(panelStart);
+
+        panel.setBackground(Kolory.Tlo);
+        panelOdpowiedzi1.setBackground(Kolory.Tlo);
+        panelOdpowiedzi2.setBackground(Kolory.Tlo);
+        panelStart.setBackground(Kolory.Tlo);
 
         panelOdpowiedzi1.add(buttonA);
         panelOdpowiedzi1.add(tekstOdpA);
@@ -265,9 +269,8 @@ public class OknoQuiz {
         }
 
         private void wybierzPole(JTextField wybranePole) {
-            wybranePole.setBackground(new Color(0, 180, 255));
+            wybranePole.setBackground(Kolory.Niebieski);
         }
-
     }
 
 
@@ -374,7 +377,7 @@ public class OknoQuiz {
 //            Statystyki.RozegraneQuizy.add(liczbaPytan);
             quizWynikController.saveQuizWynik(wynik,liczbaPytan);
 
-            if (getOknoQuiz().isCzyStart()) JOptionPane.showMessageDialog(null, "Quiz finished!");
+            if (getOknoQuiz().isCzyStart()) JOptionPane.showMessageDialog(null, "Quiz finished! Your result: " + wynik + "/" + liczbaPytan);
             getOknoQuiz().getTekstPytania().setText("The content of the question will appear here.");
             getOknoQuiz().getStartQuiz().setText("START");
         }
@@ -401,15 +404,15 @@ public class OknoQuiz {
         }
 
         private void dobraOdpowiedz(JTextField prawidlowaOdp) {
-            getOknoQuiz().getTekstPytania().setBackground(new Color(50, 205, 50));
-            prawidlowaOdp.setBackground(new Color(50, 205, 50));
+            getOknoQuiz().getTekstPytania().setBackground(Kolory.Zielony);
+            prawidlowaOdp.setBackground(Kolory.Zielony);
         }
 
         private void zlaOdpowiedz(JTextField prawidlowaOdp) {
-            getOknoQuiz().getTekstPytania().setBackground(new Color(255, 0, 0));
-            prawidlowaOdp.setBackground(new Color(50, 205, 50));
-            if (getOknoQuiz().getWybranaOdp() != null)
-                getOknoQuiz().getWybranaOdp().setBackground(new Color(255, 0, 0));
+            getOknoQuiz().getTekstPytania().setBackground(Kolory.Czerwony);
+            prawidlowaOdp.setBackground(Kolory.Zielony);
+            if(getOknoQuiz().getWybranaOdp() != null)
+                getOknoQuiz().getWybranaOdp().setBackground(Kolory.Czerwony);
         }
     }
 }

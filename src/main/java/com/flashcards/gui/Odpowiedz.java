@@ -1,7 +1,6 @@
 package com.flashcards.gui;
 
-public class Odpowiedz 
-{
+public class Odpowiedz {
 	private String tekstOdp;
 	private boolean prawdziwoscOdp;
 	
@@ -26,5 +25,4 @@ public class Odpowiedz
 		this.tekstOdp = tekstOdp;
 		this.prawdziwoscOdp = false;
 	}
-
 }
