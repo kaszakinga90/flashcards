@@ -106,23 +106,15 @@ public class OknoGlowne {
 
         przyciskPomoc.addMouseMotionListener(new PomocListener(this));
 
-        przyciskFiszkiNauka.addActionListener(e -> {
-            oknoNauka.init(this.frame);
-        });
+        przyciskFiszkiNauka.addActionListener(e -> oknoNauka.init(this.frame));
 
-        przyciskFiszki.addActionListener(e -> {
-            oknoFiszki.init(this.frame);
-        });
+        przyciskFiszki.addActionListener(e -> oknoFiszki.init(this.frame));
 
-        przyciskStatystyki.addActionListener(e -> {
-            oknoStatystyki.init(this.frame);
-        });
+        przyciskStatystyki.addActionListener(e -> oknoStatystyki.init(this.frame));
 
         przyciskQuiz.addActionListener(e ->
                 oknoQuiz.init(frame));
 
-
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {

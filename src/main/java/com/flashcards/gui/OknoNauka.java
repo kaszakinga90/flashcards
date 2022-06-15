@@ -121,9 +121,7 @@ public class OknoNauka {
             }
         });
 
-        buttonAdd.addActionListener(e -> {
-            wyczyscPola();
-        });
+        buttonAdd.addActionListener(e -> wyczyscPola());
 
         buttonSave.addActionListener(e -> {
             if (flashcardController.saveFlashCard(textFieldWordPl.getText(), textFieldWordEn.getText())) {
@@ -186,6 +184,4 @@ public class OknoNauka {
             }
         });
     }
-
-
 }

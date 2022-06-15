@@ -90,9 +90,8 @@ public class OknoStatystyki {
             wynikFiszki.setText("No results");
         } else {
             double result = fiszkiTestWynikRepository.getWyniki() / fiszkiTestWynikRepository.getLiczbaFiszek();
-            result = Math.round(result);
             result *= 100;
-
+            result = Math.round(result);
             wynikFiszki.setText(result + "%");
         }
 

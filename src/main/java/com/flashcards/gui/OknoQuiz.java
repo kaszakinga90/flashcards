@@ -171,25 +171,6 @@ public class OknoQuiz {
     }
 
     /**
-     * Zamykanie okna "QUIZ"
-     *  Ta metoda zamyka okno Quiz, wysy³a sygna³ do w¹tku o zakoñczeniu i aktywuje z powrotem okno g³ówne
-     */
-//    private void zamknijOkno()
-//    {
-//        frame.addWindowListener (new WindowAdapter() {
-//            public void windowClosing(WindowEvent e) {
-//                setCzyStart(false);
-//                frame.dispose();
-//            }
-//            public void windowClosed(WindowEvent e) {
-//                okno.pokazOkno();
-//            }
-//        });
-//        frame.setVisible(true);
-//    }
-
-
-    /**
      * Metoda odpowiadaj¹ca za inicjalizacjê okna quiz
      * Przywraca widocznoœæ Okna g³ównego po zamkniêciu okna Quiz
      */

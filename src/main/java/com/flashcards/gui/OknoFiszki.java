@@ -99,9 +99,6 @@ public class OknoFiszki {
         start.addActionListener(startListener);
         zakoncz.addActionListener(startListener);
 
-        //setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-
-
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 czyStart = false;
@@ -256,6 +253,4 @@ public class OknoFiszki {
             start.setText("START");
         }
     }
-
-
 }
