@@ -6,16 +6,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.flashcards.repository.FlashcardRepository;
-
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Klasa będąca częścią warstwy logiki biznesowej
+ */
 @Service
 @RequiredArgsConstructor
 public class DbFlashcardService {
 
     @Autowired
-    private  FlashcardRepository flashcardRepository;
+    private FlashcardRepository flashcardRepository;
 
     public void createFlashcard(Flashcard flashcard) {
         flashcardRepository.save(flashcard);

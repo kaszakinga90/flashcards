@@ -10,10 +10,9 @@ import lombok.*;
 @NoArgsConstructor
 @ToString(exclude = {"userDto"})
 @EqualsAndHashCode(exclude = {"id", "userDto"})
-public class FiszkiTestWynikDto {
-
+public class QuizWynikDto {
     private Long id;
     private double wynik;
-    private double liczbaFiszek;
+    private double liczbaPytan;
     private UserDto userDto;
 }

@@ -3,11 +3,10 @@ package com.flashcards.gui;
 import javax.swing.*;
 
 /**
- * Ten w�tek odlicza czas na odpowiedz.
- * Pozosta�y czas pokazuje si� na przycisku "Start"
+ * Ten wątek odlicza czas na odpowiedz.
+ * Pozostały czas pokazuje się na przycisku "Start"
  */
-public class OdliczanieThread extends Thread
-{
+public class OdliczanieThread extends Thread {
 	private JButton przycisk;
 	private int czas;
 		
@@ -24,26 +23,19 @@ public class OdliczanieThread extends Thread
 		this.czas = czas;
 	}
 	
-	public OdliczanieThread(JButton przycisk, int czas)
-	{
+	public OdliczanieThread(JButton przycisk, int czas) {
 		this.przycisk = przycisk;
 		this.czas = czas * 1000;
-		
 	}
 	
-	public void run()
-	{
-		while(getCzas() >= 0)
-		{
-			try 
-			{
+	public void run() {
+		while(getCzas() >= 0) {
+			try {
 				getPrzycisk().setText(getCzas()/1000 + "");
 				Thread.sleep(1000);
 				setCzas(getCzas() - 1000);
 				//if(getCzas() < 0) getPrzycisk().setText("0");
-			} 
-			catch (InterruptedException e) 
-			{
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 				return;
 			}

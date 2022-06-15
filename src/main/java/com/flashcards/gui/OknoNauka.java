@@ -4,7 +4,6 @@ import com.flashcards.controller.FlashcardController;
 import com.flashcards.controller.ImportExportController;
 import com.flashcards.controller.LoginController;
 import com.flashcards.domain.dto.FlashcardDto;
-import com.flashcards.domain.dto.UserDto;
 import com.flashcards.service.DbFlashcardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,16 +13,21 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Optional;
 
 import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 
-// okno do dodawania/wczytywania fiszek
+/**
+ * Okno to służy do uruchomienia obsługi fiszek i ich przeglądania
+ * Użytkownik może dodawać fiszki, wczytywać je z pliku i do pliku zapisywać
+ */
 @Component
 public class OknoNauka {
 
     @Autowired
     private ImportExportController importExportController;
+
+    @Autowired
+    DbFlashcardService dbFlashcardService;
     private final LoginController loginController;
     private final FlashcardController flashcardController;
     private final JFrame frame;
@@ -37,11 +41,7 @@ public class OknoNauka {
     private final JPanel panel;
     private final JButton wczytajFiszki;
     private final JButton zapiszFiszki;
-
     private java.util.List<FlashcardDto> flashcards;
-
-    @Autowired
-    DbFlashcardService dbFlashcardService;
     private int counter = 0;
 
     @Autowired
@@ -49,20 +49,20 @@ public class OknoNauka {
         this.loginController = loginController;
         this.flashcardController = flashcardController;
 
-        frame = new JFrame("Nauka");
+        frame = new JFrame("Learning");
         frame.setSize(600, 400);
         panel = new JPanel();
         frame.setContentPane(panel);
         panel.setLayout(new GridLayout(5, 2, 10, 10));
-        labelWordPl = new JLabel("Słowo pl");
-        labelWordEn = new JLabel("Słowo ang");
+        labelWordPl = new JLabel("PL word");
+        labelWordEn = new JLabel("En word");
         textFieldWordPl = new JTextField();
         textFieldWordEn = new JTextField();
         buttonNext = new JButton("Next");
         buttonAdd = new JButton("Add");
         buttonSave = new JButton("Save");
-        wczytajFiszki = new JButton("Wczytaj fiszki");
-        zapiszFiszki = new JButton("Zapisz fiszki");
+        wczytajFiszki = new JButton("Load flashcards");
+        zapiszFiszki = new JButton("Save to file");
         panel.add(labelWordPl);
         panel.add(labelWordEn);
         panel.add(textFieldWordPl);
@@ -73,19 +73,6 @@ public class OknoNauka {
         panel.add(wczytajFiszki);
         panel.add(zapiszFiszki);
 
-
-        buttonNext.addActionListener(e -> {
-            if (flashcards.size() == 0) {
-                JOptionPane.showMessageDialog(frame, "Brak fiszek");
-            } else {
-                counter++;
-                counter %= flashcards.size();
-                wyswietlFiszke(flashcards.get(counter));
-            }
-
-
-        });
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 frame.dispose();
@@ -93,6 +80,20 @@ public class OknoNauka {
         });
 
         frame.setVisible(false);
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
+
+
+        buttonNext.addActionListener(e -> {
+            if (flashcards.size() == 0) {
+                JOptionPane.showMessageDialog(frame, "No flashcards!");
+            } else {
+                counter++;
+                counter %= flashcards.size();
+                wyswietlFiszke(flashcards.get(counter));
+            }
+        });
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
         buttonAdd.addActionListener(e -> {
@@ -100,7 +101,7 @@ public class OknoNauka {
         });
 
         buttonSave.addActionListener(e -> {
-            if(flashcardController.saveFlashCard(textFieldWordPl.getText(), textFieldWordEn.getText())){
+            if (flashcardController.saveFlashCard(textFieldWordPl.getText(), textFieldWordEn.getText())) {
                 flashcards.add(new FlashcardDto(null, textFieldWordPl.getText(), textFieldWordEn.getText(), null));
             }
         });
@@ -111,9 +112,9 @@ public class OknoNauka {
             fileChooser.showOpenDialog(frame);
 
             if (importExportController.zapiszDoPliku(fileChooser.getSelectedFile())) {
-                JOptionPane.showMessageDialog(frame, "Pomyslnie zapisano plik");
+                JOptionPane.showMessageDialog(frame, "File saved successfully");
             } else {
-                JOptionPane.showMessageDialog(frame, "Nie udało sie zapisac pliku");
+                JOptionPane.showMessageDialog(frame, "File saving failed");
             }
         });
 
@@ -124,16 +125,12 @@ public class OknoNauka {
 
             if (importExportController.wczytajZpliku(fileChooser.getSelectedFile())) {
                 flashcards = flashcardController.flashcardsForLoggedInUser();
-                JOptionPane.showMessageDialog(frame, "Pomyslnie wczytano");
+                JOptionPane.showMessageDialog(frame, "File saved successfully");
             } else {
-                JOptionPane.showMessageDialog(frame, "Nie udało sie wczytac");
+                JOptionPane.showMessageDialog(frame, "Failed to load");
             }
         });
-
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
     }
-
 
     private void wyswietlFiszke(FlashcardDto f) {
         textFieldWordPl.setText(f.getSlowoPolskie());
@@ -161,8 +158,6 @@ public class OknoNauka {
 
             public void windowClosed(WindowEvent e) {
                 oknoGlowne.setVisible(true);
-                //getOkno().AktywujPrzyciski();
-//				okno.pokazOkno();
             }
         });
     }

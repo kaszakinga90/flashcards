@@ -4,9 +4,11 @@ import com.flashcards.domain.User;
 import com.flashcards.domain.dto.UserDto;
 import org.springframework.stereotype.Component;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Klasa mapująca dane
+ */
 @Component
 public class UserMapper {
 
@@ -29,5 +31,4 @@ public class UserMapper {
                 .map(t -> new UserDto(t.getId(), t.getEmail(), t.getPassword()))
                 .collect(Collectors.toList());
     }
-
 }

@@ -10,13 +10,20 @@ import java.util.List;
 
 import javax.swing.*;
 
+import com.flashcards.controller.FiszkiTestWynikController;
+import com.flashcards.controller.FlashcardController;
+import com.flashcards.controller.QuizWynikController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 
 @Component
-public class OknoQuiz
-{
+public class OknoQuiz {
+
+    @Autowired
+    private QuizWynikController quizWynikController;
+
     private final JFrame frame;
     private final JTextArea tekstPytania;
     private final JTextField tekstOdpA;
@@ -35,42 +42,49 @@ public class OknoQuiz
     private static final String odpB = "odpB";
     private static final String odpC = "odpC";
     private static final String odpD = "odpD";
-//    private OknoGlowne okno;
     private boolean czyStart;
 
     public JButton getStartQuiz() {
         return startQuiz;
     }
+
     public boolean isCzyStart() {
         return czyStart;
     }
+
     public void setCzyStart(boolean czyStart) {
         this.czyStart = czyStart;
     }
+
     public JTextArea getTekstPytania() {
         return tekstPytania;
     }
+
     public JTextField getTekstOdpA() {
         return tekstOdpA;
     }
+
     public JTextField getTekstOdpB() {
         return tekstOdpB;
     }
+
     public JTextField getTekstOdpC() {
         return tekstOdpC;
     }
+
     public JTextField getTekstOdpD() {
         return tekstOdpD;
     }
+
     public JTextField getWybranaOdp() {
         return wybranaOdp;
     }
+
     public void setWybranaOdp(JTextField wybranaOdp) {
         this.wybranaOdp = wybranaOdp;
     }
 
-    public OknoQuiz()
-    {
+    public OknoQuiz() {
         frame = new JFrame("QUIZ");
         frame.setSize(600, 400);
         panel = new JPanel();
@@ -78,7 +92,7 @@ public class OknoQuiz
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         panel.setLayout(new GridLayout(4, 1, 10, 10));
 
-        tekstPytania = new JTextArea("Tutaj pojawi siê treœæ pytania.");
+        tekstPytania = new JTextArea("The text of the question will appear here.");
         tekstPytania.setEditable(false);
         tekstOdpA = new JTextField(20);
         tekstOdpA.setEditable(false);
@@ -124,8 +138,6 @@ public class OknoQuiz
 
         obslugaKlawiatury();
 
-//        zamknijOkno();
-
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 setCzyStart(false);
@@ -135,7 +147,6 @@ public class OknoQuiz
 
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
-
         frame.setVisible(false);
     }
 
@@ -143,8 +154,7 @@ public class OknoQuiz
      * Key Binding dla klawiszy klawiatury a, b, c, d;
      * Przyciœniêcie klawisza wywo³uje akcjê ButtonAction(JButton)
      */
-    private void obslugaKlawiatury()
-    {
+    private void obslugaKlawiatury() {
         tekstPytania.getInputMap(IFW).put(KeyStroke.getKeyStroke("A"), odpA);
         tekstPytania.getInputMap(IFW).put(KeyStroke.getKeyStroke("B"), odpB);
         tekstPytania.getInputMap(IFW).put(KeyStroke.getKeyStroke("C"), odpC);
@@ -175,158 +185,138 @@ public class OknoQuiz
 //    }
 
 
+    /**
+     * Metoda odpowiadaj¹ca za inicjalizacjê okna quiz
+     * Przywraca widocznoœæ Okna g³ównego po zamkniêciu okna Quiz
+     */
     public void init(JFrame oknoGlowne) {
         frame.setVisible(true);
-        JOptionPane.showMessageDialog(null, "Po naciœniêciu przycisku <Start> zobaczysz 5 pytañ. Wybierz jedn¹ z odpowiedzi: A, B, C, D (mo¿esz u¿yæ klawiatury!). Na odpowiedz masz 10 sekund. Powodzenia :)");
+        JOptionPane.showMessageDialog(null, "After pressing the <Start> button you will see 5 questions. Choose one of the answers: A, B, C, D (you can use the keyboard!). You have 10 seconds to answer. Good luck :)");
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
             }
 
             public void windowClosed(WindowEvent e) {
                 oknoGlowne.setVisible(true);
-                //getOkno().AktywujPrzyciski();
-//				okno.pokazOkno();
             }
         });
     }
 
-
-
-
-
-    private  class ButtonAction extends AbstractAction
-    {
+    private class ButtonAction extends AbstractAction {
         private JButton button;
 
-        public ButtonAction(JButton button)
-        {
+        public ButtonAction(JButton button) {
             this.button = button;
         }
+
         @Override
-        public void actionPerformed(ActionEvent e)
-        {
+        public void actionPerformed(ActionEvent e) {
             button.doClick();
         }
     }
 
-
-    private class QuizOdpowiedzListener implements ActionListener
-    {
+    private class QuizOdpowiedzListener implements ActionListener {
         private OknoQuiz oknoQuiz;
 
         public OknoQuiz getOknoQuiz() {
             return oknoQuiz;
         }
+
         public void setOknoQuiz(OknoQuiz oknoQuiz) {
             this.oknoQuiz = oknoQuiz;
         }
 
-        public QuizOdpowiedzListener(OknoQuiz oknoQuiz)
-        {
+        public QuizOdpowiedzListener(OknoQuiz oknoQuiz) {
             this.oknoQuiz = oknoQuiz;
         }
 
         @Override
-        public void actionPerformed(ActionEvent e)
-        {
-            try
-            {
+        public void actionPerformed(ActionEvent e) {
+            try {
                 wyczyscKolor();
-                switch(e.getActionCommand())
-                {
+                switch (e.getActionCommand()) {
                     case " A ":
                         getOknoQuiz().setWybranaOdp(getOknoQuiz().getTekstOdpA());
                         wybierzPole(getOknoQuiz().getTekstOdpA());
                         break;
                     case " B ":
                         getOknoQuiz().setWybranaOdp(getOknoQuiz().getTekstOdpB());
-                        getOknoQuiz().getTekstOdpB().setBackground(new Color(0,180,255));
+                        getOknoQuiz().getTekstOdpB().setBackground(new Color(0, 180, 255));
                         break;
                     case " C ":
                         getOknoQuiz().setWybranaOdp(getOknoQuiz().getTekstOdpC());
-                        getOknoQuiz().getTekstOdpC().setBackground(new Color(0,180,255));
+                        getOknoQuiz().getTekstOdpC().setBackground(new Color(0, 180, 255));
                         break;
                     case " D ":
                         getOknoQuiz().setWybranaOdp(getOknoQuiz().getTekstOdpD());
-                        getOknoQuiz().getTekstOdpD().setBackground(new Color(0,180,255));
+                        getOknoQuiz().getTekstOdpD().setBackground(new Color(0, 180, 255));
                         break;
                 }
-            }
-            catch(Exception ex)
-            {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
 
-        private void wyczyscKolor()
-        {
+        private void wyczyscKolor() {
             getOknoQuiz().getTekstOdpA().setBackground(null);
             getOknoQuiz().getTekstOdpB().setBackground(null);
             getOknoQuiz().getTekstOdpC().setBackground(null);
             getOknoQuiz().getTekstOdpD().setBackground(null);
         }
-        private void wybierzPole(JTextField wybranePole)
-        {
-            wybranePole.setBackground(new Color(0,180,255));
+
+        private void wybierzPole(JTextField wybranePole) {
+            wybranePole.setBackground(new Color(0, 180, 255));
         }
 
     }
 
 
-    private class StartQuizListener implements ActionListener
-    {
+    private class StartQuizListener implements ActionListener {
         private OknoQuiz oknoQuiz;
 
         public OknoQuiz getOknoQuiz() {
             return oknoQuiz;
         }
+
         public void setOknoQuiz(OknoQuiz oknoQuiz) {
             this.oknoQuiz = oknoQuiz;
         }
 
-        public StartQuizListener(OknoQuiz oknoQuiz)
-        {
+        public StartQuizListener(OknoQuiz oknoQuiz) {
             this.oknoQuiz = oknoQuiz;
         }
 
         @Override
-        public void actionPerformed(ActionEvent e)
-        {
-            try
-            {
-                if(getOknoQuiz().getStartQuiz().getText().equals("START"))
-                {
+        public void actionPerformed(ActionEvent e) {
+            try {
+                if (getOknoQuiz().getStartQuiz().getText().equals("START")) {
                     getOknoQuiz().setCzyStart(true);
                     new QuizThread(getOknoQuiz()).start();
                 }
-            }
-            catch(Exception ex)
-            {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
 
     }
 
-    private class QuizThread extends Thread
-    {
+    private class QuizThread extends Thread {
         private OknoQuiz oknoQuiz;
 
         public OknoQuiz getOknoQuiz() {
             return oknoQuiz;
         }
+
         public void setOknoQuiz(OknoQuiz oknoQuiz) {
             this.oknoQuiz = oknoQuiz;
         }
 
-        public QuizThread(OknoQuiz oknoQuiz)
-        {
+        public QuizThread(OknoQuiz oknoQuiz) {
             this.oknoQuiz = oknoQuiz;
         }
 
         @Override
-        public void run()
-        {
+        public void run() {
             JTextArea pytanie = new JTextArea();
             JTextField poleA = new JTextField();
             JTextField poleB = new JTextField();
@@ -344,10 +334,8 @@ public class OknoQuiz
             List<PytanieQuiz> pytaniaQuiz = new ArrayList<>();
             pytaniaQuiz = PytaniaQuiz.losujPytania();
 
-            for(var elem : pytaniaQuiz)
-            {
-                try
-                {
+            for (var elem : pytaniaQuiz) {
+                try {
                     new OdliczanieThread(getOknoQuiz().getStartQuiz(), 10).start();
                     pytanie.setText(elem.getPytanie());
                     poleA.setText(elem.getOdp1().getTekstOdp());
@@ -356,58 +344,52 @@ public class OknoQuiz
                     poleD.setText(elem.getOdp4().getTekstOdp());
                     JTextField prawidlowaOdp = new JTextField();
 
-                    if(poprawnaOdpowiedz(elem) == 1) prawidlowaOdp = poleA;
-                    if(poprawnaOdpowiedz(elem) == 2) prawidlowaOdp = poleB;
-                    if(poprawnaOdpowiedz(elem) == 3) prawidlowaOdp = poleC;
-                    if(poprawnaOdpowiedz(elem) == 4) prawidlowaOdp = poleD;
+                    if (poprawnaOdpowiedz(elem) == 1) prawidlowaOdp = poleA;
+                    if (poprawnaOdpowiedz(elem) == 2) prawidlowaOdp = poleB;
+                    if (poprawnaOdpowiedz(elem) == 3) prawidlowaOdp = poleC;
+                    if (poprawnaOdpowiedz(elem) == 4) prawidlowaOdp = poleD;
 
                     Thread.sleep(10000);
 
-                    if(getOknoQuiz().getWybranaOdp() == prawidlowaOdp)
-                    {
+                    if (getOknoQuiz().getWybranaOdp() == prawidlowaOdp) {
                         wynik++;
                         liczbaPytan++;
                         dobraOdpowiedz(prawidlowaOdp);
                         Thread.sleep(1000);
-                    }
-                    else
-                    {
+                    } else {
                         liczbaPytan++;
                         zlaOdpowiedz(prawidlowaOdp);
                         Thread.sleep(1000);
                     }
 
-                }
-                catch(InterruptedException e)
-                {
-                    System.out.println("W¹tek QuizThread zosta³ przerwany");
-                    break;	//wyskakuje z for
-                }
-                finally
-                {
+                } catch (InterruptedException e) {
+                    System.out.println("QuizThread has been terminated");
+                    break;
+                } finally {
                     resetujZaznaczenie();
-                    if(!getOknoQuiz().isCzyStart()) break;
+                    if (!getOknoQuiz().isCzyStart()) break;
                 }
             }
 //            Statystyki.WynikQuizu.add(wynik);
 //            Statystyki.RozegraneQuizy.add(liczbaPytan);
-            if(getOknoQuiz().isCzyStart()) JOptionPane.showMessageDialog(null, "Quiz zakoñczony!");
-            getOknoQuiz().getTekstPytania().setText("Tutaj pojawi siê treœæ pytania.");
+            quizWynikController.saveQuizWynik(wynik,liczbaPytan);
+
+            if (getOknoQuiz().isCzyStart()) JOptionPane.showMessageDialog(null, "Quiz finished!");
+            getOknoQuiz().getTekstPytania().setText("The content of the question will appear here.");
             getOknoQuiz().getStartQuiz().setText("START");
         }
 
-        private short poprawnaOdpowiedz(PytanieQuiz pytanie)
-        {
-            if(pytanie.getOdp1().isPrawdziwoscOdp()) return 1;
-            if(pytanie.getOdp2().isPrawdziwoscOdp()) return 2;
-            if(pytanie.getOdp3().isPrawdziwoscOdp()) return 3;
-            if(pytanie.getOdp4().isPrawdziwoscOdp()) return 4;
+        private short poprawnaOdpowiedz(PytanieQuiz pytanie) {
+            if (pytanie.getOdp1().isPrawdziwoscOdp()) return 1;
+            if (pytanie.getOdp2().isPrawdziwoscOdp()) return 2;
+            if (pytanie.getOdp3().isPrawdziwoscOdp()) return 3;
+            if (pytanie.getOdp4().isPrawdziwoscOdp()) return 4;
             else return 0;
         }
-        private void resetujZaznaczenie()
-        {
+
+        private void resetujZaznaczenie() {
             getOknoQuiz().getTekstPytania().setText("");
-            getOknoQuiz().getTekstPytania().setBackground(new Color(255,255,255));
+            getOknoQuiz().getTekstPytania().setBackground(new Color(255, 255, 255));
             getOknoQuiz().getTekstOdpA().setText("");
             getOknoQuiz().getTekstOdpA().setBackground(null);
             getOknoQuiz().getTekstOdpB().setText("");
@@ -417,19 +399,17 @@ public class OknoQuiz
             getOknoQuiz().getTekstOdpD().setText("");
             getOknoQuiz().getTekstOdpD().setBackground(null);
         }
-        private void dobraOdpowiedz(JTextField prawidlowaOdp)
-        {
-            getOknoQuiz().getTekstPytania().setBackground(new Color(50,205,50));
-            prawidlowaOdp.setBackground(new Color(50,205,50));
-        }
-        private void zlaOdpowiedz(JTextField prawidlowaOdp)
-        {
-            getOknoQuiz().getTekstPytania().setBackground(new Color(255,0,0));
-            prawidlowaOdp.setBackground(new Color(50,205,50));
-            if(getOknoQuiz().getWybranaOdp() != null)
-                getOknoQuiz().getWybranaOdp().setBackground(new Color(255,0,0));
+
+        private void dobraOdpowiedz(JTextField prawidlowaOdp) {
+            getOknoQuiz().getTekstPytania().setBackground(new Color(50, 205, 50));
+            prawidlowaOdp.setBackground(new Color(50, 205, 50));
         }
 
+        private void zlaOdpowiedz(JTextField prawidlowaOdp) {
+            getOknoQuiz().getTekstPytania().setBackground(new Color(255, 0, 0));
+            prawidlowaOdp.setBackground(new Color(50, 205, 50));
+            if (getOknoQuiz().getWybranaOdp() != null)
+                getOknoQuiz().getWybranaOdp().setBackground(new Color(255, 0, 0));
+        }
     }
-
 }

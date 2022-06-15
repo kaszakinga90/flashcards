@@ -2,6 +2,9 @@ package com.flashcards.domain.dto;
 
 import lombok.*;
 
+/**
+ * Klasa reprezentująca obiekt DTO, który przekazuje dane do innych części aplikacji
+ */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,6 +16,4 @@ public class FlashcardDto {
     private String slowoPolskie;
     private String slowoAngielskie;
     private UserDto userDto;
-
-
 }

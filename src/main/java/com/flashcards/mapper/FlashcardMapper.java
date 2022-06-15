@@ -6,10 +6,12 @@ import com.flashcards.domain.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import com.flashcards.service.DbUserService;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Klasa mapująca dane
+ */
 @Component
 @RequiredArgsConstructor
 public class FlashcardMapper {
@@ -33,9 +35,8 @@ public class FlashcardMapper {
                 userMapper.mapToUserDto(flashcard.getUser()));
     }
 
-
     public List<FlashcardDto> mapToFlashcardDtoList(final List<Flashcard> flashcardList) {
-        return  flashcardList.stream()
+        return flashcardList.stream()
                 .map(f -> new FlashcardDto(
                         f.getId(),
                         f.getSlowoPolskie(),

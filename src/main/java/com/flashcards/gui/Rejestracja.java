@@ -23,24 +23,22 @@ public class Rejestracja extends AbstractCredentialWindow {
     @Autowired
     private Logowanie logowanie;
 
-    public Rejestracja(){
-        super("Rejestracja", "Zarejestruj", "Zaloguj się");
+    public Rejestracja() {
+        super("Registration", "Sign up", "Log in");
         buttonZapiszZarejestruj.addActionListener(e -> {
-            if(registerController.register(textFieldEmail.getText(), textFieldPassword.getText())){
-                JOptionPane.showMessageDialog(frame, "pomyslnie zarejestrowano");
+            if (registerController.register(textFieldEmail.getText(), textFieldPassword.getText())) {
+                JOptionPane.showMessageDialog(frame, "Successfully registered");
                 ukryjOkno();
                 logowanie.ukryjOkno();
                 oknoGlowne.pokazOkno();
             } else {
-                JOptionPane.showMessageDialog(frame, "Taki uzytkownik juz istnieje w bazie!");
+                JOptionPane.showMessageDialog(frame, "This user already exists in the database!");
             }
         });
 
         buttonPrzelacz.addActionListener(e -> {
             ukryjOkno();
             logowanie.pokazOkno();
-
         });
     }
-
 }

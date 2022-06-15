@@ -1,7 +1,4 @@
 package com.flashcards.gui;
-//
-//import listeners.FiszkiListener;
-//import listeners.PomocListener;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,199 +6,203 @@ import org.springframework.stereotype.Component;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
 
-/** 
+/**
  * Klasa przedstawia pocz¹tkowe okno aplikacji. Zosta³a napisana w Swing.
- * W oknie znajduj¹ siê 4 przyciski: 
- * Fiszki - tryb fiszki polega na zgadywaniu s³ów po angielsku albo po polsku
+ * W oknie znajduje siê 5 przycisków:
+ * Flashcard - w sekcji LEARN - do nauki jêzyka poprzez fiszki
+ * Flashcard - test - tryb ten polega na zgadywaniu s³ów po angielsku albo po polsku
  * Quiz - quiz jêzyka angielskiego w formie pytañ ABCD jednokrotnego wyboru
- * Statystyki - statystyki u¿ytkownika, które mo¿na nastêpnie zapisaæ do pliku
- * "?" - pomoc
+ * Statystyki - statystyki u¿ytkownika
+ * "?" - pomoc pokazuj¹cy komunikat o mo¿liwoœci kontaktu
  */
 @Component
-public class OknoGlowne 
-{
-	@Autowired
-	OknoNauka oknoNauka;
+public class OknoGlowne {
+    @Autowired
+    OknoNauka oknoNauka;
 
-	@Autowired
-	OknoFiszki oknoFiszki;
+    @Autowired
+    OknoFiszki oknoFiszki;
 
-	@Autowired
-	OknoStatystyki oknoStatystyki;
+    @Autowired
+    OknoStatystyki oknoStatystyki;
 
-	@Autowired
-	OknoQuiz oknoQuiz;
+    @Autowired
+    OknoQuiz oknoQuiz;
 
-	@Autowired
-	SocketKlienta socketKlienta;
+    @Autowired
+    SocketKlienta socketKlienta;
 
+    public static final String KONIEC_POLACZENIA = "KONIEC POLACZENIA";
+    private final JFrame frame;
+    private final JPanel panel;
+    private final JButton przyciskFiszki;
+    private final JButton przyciskFiszkiNauka;
+    private final JButton przyciskQuiz;
+    private final JButton przyciskStatystyki;
+    private final JButton przyciskPomoc;
+    private final JLabel tekst;
+    private final JLabel tekst2;
 
-	public static final String KONIEC_POLACZENIA = "KONIEC POLACZENIA";
-	private final JFrame frame;
-	private final JPanel panel;
-	private final JButton przyciskFiszki;
-	private final JButton przyciskFiszkiNauka;
-	private final JButton przyciskQuiz;
-	private final JButton przyciskStatystyki;
-	private final JButton przyciskPomoc;
-	private final JLabel tekst;
-	private final JLabel tekst2;
+    public OknoGlowne() {
+        frame = new JFrame("App for learning English");
+        panel = new JPanel();
+        frame.setSize(600, 400);
+        frame.setContentPane(panel);
+        panel.setLayout(new GridLayout(5, 1, 10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        JPanel panel1 = new JPanel();
+        JPanel panel2 = new JPanel();
+        JPanel panel3 = new JPanel();
+        JPanel panel4 = new JPanel();
+        JPanel panel5 = new JPanel();
+        panel1.setLayout(new FlowLayout(FlowLayout.TRAILING));
+        panel2.setLayout(new GridLayout(2, 1, 10, 10));
+        panel2.setBorder(BorderFactory.createEmptyBorder(0, 60, 10, 60));
+        panel3.setLayout(new FlowLayout(FlowLayout.CENTER));
+        panel4.setLayout(new GridLayout(1, 2, 20, 10));
+        panel4.setBorder(BorderFactory.createEmptyBorder(0, 60, 10, 60));
+        panel5.setLayout(new FlowLayout(FlowLayout.TRAILING));
 
-	public OknoGlowne()
-	{
-		frame = new JFrame("Aplikacja do nauki angielskiego");
-		panel = new JPanel();
-		frame.setSize(600, 400);
-		frame.setContentPane(panel);
-		panel.setLayout(new GridLayout(5, 1, 10, 10));
-		panel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-		JPanel panel1 = new JPanel();
-		JPanel panel2 = new JPanel();
-		JPanel panel3 = new JPanel();
-		JPanel panel4 = new JPanel();
-		JPanel panel5 = new JPanel();
-		panel1.setLayout(new FlowLayout(FlowLayout.TRAILING));
-		panel2.setLayout(new GridLayout(2,1,10,10));
-		panel2.setBorder(BorderFactory.createEmptyBorder(0,60,10,60));
-		panel3.setLayout(new FlowLayout(FlowLayout.CENTER));
-		panel4.setLayout(new GridLayout(1, 2, 20, 10));
-		panel4.setBorder(BorderFactory.createEmptyBorder(0,60,10,60));
-		panel5.setLayout(new FlowLayout(FlowLayout.TRAILING));
+        Color tlo = new Color(235, 246, 255);
+        panel.setBackground(tlo);
+        panel1.setBackground(tlo);
+        panel2.setBackground(tlo);
+        panel3.setBackground(tlo);
+        panel4.setBackground(tlo);
+        panel5.setBackground(tlo);
 
-		
-		Color tlo = new Color(235, 246, 255);
-		panel.setBackground(tlo);
-		panel1.setBackground(tlo);
-		panel2.setBackground(tlo);
-		panel3.setBackground(tlo);
-		panel4.setBackground(tlo);
-		panel5.setBackground(tlo);
-		
-		przyciskFiszki = new JButton("Flashcards - test");
-		przyciskFiszki.setFont(new Font("Calibri", Font.BOLD, 18));
-		przyciskQuiz = new JButton("QUIZ");
-		przyciskQuiz.setFont(new Font("Calibri", Font.BOLD, 18));	
-		przyciskStatystyki = new JButton("Statistics");
-		przyciskStatystyki.setFont(new Font("Calibri", Font.BOLD, 14));
-		przyciskPomoc = new JButton("?");
-		przyciskPomoc.setFont(new Font("Calibri", Font.BOLD, 26));	
-		tekst = new JLabel("Learn");
-		tekst.setFont(new Font("Calibri", Font.BOLD, 22));
-		tekst2 = new JLabel("Check yourself");
-		tekst2.setFont(new Font("Calibri", Font.BOLD, 22));
-		przyciskFiszkiNauka = new JButton("Flashcards");
-		
-		panel1.add(przyciskStatystyki);
-		panel2.add(tekst);
-		panel2.add(przyciskFiszkiNauka);
-		panel3.add(tekst2);
-		panel4.add(przyciskFiszki);
-		panel4.add(przyciskQuiz);
-		panel5.add(przyciskPomoc);
-		
-		panel.add(panel1);
-		panel.add(panel2);
-		panel.add(panel3);
-		panel.add(panel4);
-		panel.add(panel5);
-		
-//		przyciskFiszki.addActionListener(new FiszkiListener(this));
-		przyciskPomoc.addMouseMotionListener(new PomocListener(this));
+        przyciskFiszki = new JButton("Flashcards - test");
+        przyciskFiszki.setFont(new Font("Calibri", Font.BOLD, 18));
+        przyciskQuiz = new JButton("QUIZ");
+        przyciskQuiz.setFont(new Font("Calibri", Font.BOLD, 18));
+        przyciskStatystyki = new JButton("Statistics");
+        przyciskStatystyki.setFont(new Font("Calibri", Font.BOLD, 14));
+        przyciskPomoc = new JButton("?");
+        przyciskPomoc.setFont(new Font("Calibri", Font.BOLD, 26));
+        tekst = new JLabel("Learn");
+        tekst.setFont(new Font("Calibri", Font.BOLD, 22));
+        tekst2 = new JLabel("Check yourself");
+        tekst2.setFont(new Font("Calibri", Font.BOLD, 22));
+        przyciskFiszkiNauka = new JButton("Flashcards");
 
-		przyciskFiszkiNauka.addActionListener(e -> {
-			oknoNauka.init(this.frame);
-		});
+        panel1.add(przyciskStatystyki);
+        panel2.add(tekst);
+        panel2.add(przyciskFiszkiNauka);
+        panel3.add(tekst2);
+        panel4.add(przyciskFiszki);
+        panel4.add(przyciskQuiz);
+        panel5.add(przyciskPomoc);
 
-		przyciskFiszki.addActionListener(e -> {
-			oknoFiszki.init(this.frame);
-		});
+        panel.add(panel1);
+        panel.add(panel2);
+        panel.add(panel3);
+        panel.add(panel4);
+        panel.add(panel5);
 
-		przyciskStatystyki.addActionListener(e -> {
-			oknoStatystyki.init(this.frame);
-		});
+        przyciskPomoc.addMouseMotionListener(new PomocListener(this));
 
-		przyciskQuiz.addActionListener(e ->
-			oknoQuiz.init(frame));
+        przyciskFiszkiNauka.addActionListener(e -> {
+            oknoNauka.init(this.frame);
+        });
+
+        przyciskFiszki.addActionListener(e -> {
+            oknoFiszki.init(this.frame);
+        });
+
+        przyciskStatystyki.addActionListener(e -> {
+            oknoStatystyki.init(this.frame);
+        });
+
+        przyciskQuiz.addActionListener(e ->
+                oknoQuiz.init(frame));
 
 
-		
 //		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                //frame.dispose();
+                System.out.println("Zamykanie okna");
 
-		frame.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				frame.dispose();
+//				socketKlienta.getOut().println(KONIEC_POLACZENIA);
+//				if (String.valueOf(socketKlienta.getIn()).equals(KONIEC_POLACZENIA)) {
+//					try {
+//						System.out.println("Zamykanie po³¹czenia");
+//						socketKlienta.getIn().close();
+//						System.out.println("Zamkniêto in");
+//						socketKlienta.getOut().close();
+//						System.out.println("Zamkniêto out");
+//						socketKlienta.getSocket().close();
+//						System.out.println("Zamkniêto socket");
+//						socketKlienta.getScanner().close();
+//					} catch (IOException ex) {
+//						System.out.println("B³¹d przy zamykaniu po³¹czenia");
+//					}
+//				}
+            }
 
-			}
-
-			public void windowClosed(WindowEvent e) {
-				socketKlienta.getOut().println(KONIEC_POLACZENIA);
-			}
-		});
-
-
-
-
-
-		frame.setLocationRelativeTo(null);
-		frame.setResizable(false);
-		frame.setVisible(false);
-		
-	}
-	public void pokazOkno(){
-		frame.setVisible(true);
-	}
-	public void zamknijOkno(){
-		frame.setVisible(false);
-	}
-	public void ukryjOkno() { frame.setVisible(false);}
-	
-	public void DezaktywujPrzyciski()
-	{
-		przyciskStatystyki.setEnabled(false);
-		przyciskFiszki.setEnabled(false);
-		przyciskQuiz.setEnabled(false);
-		przyciskPomoc.setEnabled(false);
-	}
-	
-	public void AktywujPrzyciski()
-	{
-		przyciskStatystyki.setEnabled(true);
-		przyciskFiszki.setEnabled(true);
-		przyciskQuiz.setEnabled(true);
-		przyciskPomoc.setEnabled(true);
-	}
+            public void windowClosed(WindowEvent e) {
+                //socketKlienta.getOut().println(KONIEC_POLACZENIA);
+            }
+        });
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
-	/**
-	 * Ustawienie tooltipa dla przycisku pomocy
-	 */
-	private class PomocListener implements MouseMotionListener {
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
+        frame.setVisible(false);
+    }
 
-		OknoGlowne okno;
+    public void pokazOkno() {
+        frame.setVisible(true);
+    }
 
-		public PomocListener(OknoGlowne okno) {
-			super();
-			this.okno = okno;
-		}
+    public void zamknijOkno() {
+        frame.setVisible(false);
+    }
 
-		public OknoGlowne getOkno() {
-			return okno;
-		}
+    public void ukryjOkno() {
+        frame.setVisible(false);
+    }
 
+    public void DezaktywujPrzyciski() {
+        przyciskStatystyki.setEnabled(false);
+        przyciskFiszki.setEnabled(false);
+        przyciskQuiz.setEnabled(false);
+        przyciskPomoc.setEnabled(false);
+    }
 
-		@Override
-		public void mouseDragged(MouseEvent e) {
+    public void AktywujPrzyciski() {
+        przyciskStatystyki.setEnabled(true);
+        przyciskFiszki.setEnabled(true);
+        przyciskQuiz.setEnabled(true);
+        przyciskPomoc.setEnabled(true);
+    }
 
-		}
+    /**
+     * Ustawienie tooltipa dla przycisku pomocy
+     */
+    private class PomocListener implements MouseMotionListener {
 
-		@Override
-		public void mouseMoved(MouseEvent e) {
+        OknoGlowne okno;
 
-			przyciskPomoc.setToolTipText("If you need help, please contact us pomoc@fiszki.com");
-		}
-	}
-	
+        public PomocListener(OknoGlowne okno) {
+            super();
+            this.okno = okno;
+        }
+
+        public OknoGlowne getOkno() {
+            return okno;
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            przyciskPomoc.setToolTipText("If you need help, please contact us pomoc@fiszki.com");
+        }
+    }
 }

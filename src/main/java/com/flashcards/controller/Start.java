@@ -20,11 +20,6 @@ public class Start {
     public static final int SERWER_PORT = 2002;
     public static final String HOST = "localhost";
     public static final String KONIEC_POLACZENIA = "KONIEC";
-    public static final String TEST_KOMUNIKACJI = "TEST_KOMUNIKACJI";
-    public static final String KONIEC_TESTU_KOMUNIKACJI = "KONIEC_TESTU_KOMUNIKACJI";
-    public static final String TEST_KALKULATORA = "TEST_KALKULATORA";
-    public static final String POLECENIE_IMIE = "Podaj swoje imie.";
-    public static final String POLECENIE_NAZWISKO = "Podaj swoje nazwisko.";
 
 
     public static void main(String[] args) {
@@ -36,8 +31,8 @@ public class Start {
         context.getBean(Rejestracja.class).pokazOkno();
 
 
-        SocketKlienta socketKlienta = new SocketKlienta();
-        socketKlienta.inicjalizuj();
+//        SocketKlienta socketKlienta = new SocketKlienta();
+//        socketKlienta.inicjalizuj();
 
 
 

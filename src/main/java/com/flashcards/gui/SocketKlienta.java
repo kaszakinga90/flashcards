@@ -10,14 +10,11 @@ import java.util.Scanner;
 public class SocketKlienta {
 
     public static final String KONIEC_POLACZENIA = "KONIEC POLACZENIA";
-
     public static final int SERWER_PORT = 2002;
     private Socket socket;
     private BufferedReader in;
-
     private PrintWriter out;
     private Scanner scanner;
-
 
     public Scanner getScanner() {
         return scanner;
@@ -39,10 +36,8 @@ public class SocketKlienta {
     {
     }
 
-    public void inicjalizuj()
-    {
-        try
-        {
+    public void inicjalizuj() {
+        try {
             // Tworzymy połączenie z serwerem.
             socket = new Socket("localhost", SERWER_PORT);
             //socket = new Socket("167.235.227.37", SERWER_PORT);
@@ -58,28 +53,12 @@ public class SocketKlienta {
             scanner = new Scanner(System.in);
 
 
-
             while (true) {
                 String line = in.readLine();
                 System.out.println(line);
 
                 String text = scanner.nextLine();
                 out.println(text);
-
-                if (line.equals(KONIEC_POLACZENIA)) {
-                    try {
-                        System.out.println("Zamykanie połączenia");
-                        in.close();
-                        System.out.println("Zamknięto in");
-                        out.close();
-                        System.out.println("Zamknięto out");
-                        socket.close();
-                        System.out.println("Zamknięto socket");
-                        scanner.close();
-                    } catch (IOException ex) {
-                        System.out.println("Błąd przy zamykaniu połączenia");
-                    }
-                }
 
             }
 
@@ -88,11 +67,8 @@ public class SocketKlienta {
 //            Thread thread = new NasluchiwaczThread(in, output);
 //            thread.start();
 
-        }
-        catch (IOException ex)
-        {
+        } catch (IOException ex) {
             System.out.println("Błąd przy tworzeniu połączenia");
         }
     }
-
 }

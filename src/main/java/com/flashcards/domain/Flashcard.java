@@ -1,11 +1,13 @@
 package com.flashcards.domain;
 
 import lombok.*;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Klasa reprezentująca encję z bazy danych
+ */
 @Entity
 @Table(name = "flashcards")
 @Data
@@ -26,10 +28,9 @@ public class Flashcard {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Flashcard(String slowoPolskie, String slowoAngielskie, User user){
+    public Flashcard(String slowoPolskie, String slowoAngielskie, User user) {
         this.slowoPolskie = slowoPolskie;
         this.slowoAngielskie = slowoAngielskie;
         this.user = user;
     }
-
 }

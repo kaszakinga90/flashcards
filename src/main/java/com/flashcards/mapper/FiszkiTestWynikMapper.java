@@ -1,18 +1,17 @@
 package com.flashcards.mapper;
 
 import com.flashcards.domain.FiszkiTestWynik;
-import com.flashcards.domain.Flashcard;
 import com.flashcards.domain.dto.FiszkiTestWynikDto;
-import com.flashcards.domain.dto.FlashcardDto;
 import com.flashcards.domain.exceptions.UserNotFoundException;
 import com.flashcards.service.DbUserService;
-import com.flashcards.service.FiszkiTestWynikService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Klasa mapująca dane
+ */
 @Component
 @RequiredArgsConstructor
 public class FiszkiTestWynikMapper {
@@ -37,7 +36,7 @@ public class FiszkiTestWynikMapper {
     }
 
     public List<FiszkiTestWynikDto> mapToFiszkiTestWynikDtoList(final List<FiszkiTestWynik> fiszkitestWynikList) {
-        return  fiszkitestWynikList.stream()
+        return fiszkitestWynikList.stream()
                 .map(f -> new FiszkiTestWynikDto(
                         f.getId(),
                         f.getWynik(),

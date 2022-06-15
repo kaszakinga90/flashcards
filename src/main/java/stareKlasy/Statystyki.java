@@ -3,8 +3,7 @@ package stareKlasy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Statystyki
-{
+public class Statystyki {
     public static List<Integer> WynikFiszek = new ArrayList<>();
     public static List<Integer> RozegraneFiszki = new ArrayList<>();
     public static List<Integer> WynikQuizu = new ArrayList<>();

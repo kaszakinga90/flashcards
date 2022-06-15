@@ -19,16 +19,16 @@ public class Logowanie extends  AbstractCredentialWindow {
     private LoginController loginController;
 
     public Logowanie() {
-        super("logowanie", "zaloguj", "");
+        super("Login", "Sign in", "");
         ukryjOkno();
         buttonPrzelacz.setEnabled(false);
         buttonZapiszZarejestruj.addActionListener(e -> {
             if(loginController.login(textFieldEmail.getText(), textFieldPassword.getText())){
-                JOptionPane.showMessageDialog(frame, "pomyslnie zalogowano");
+                JOptionPane.showMessageDialog(frame, "Successfully logged in :)");
                 ukryjOkno();
                 oknoGlowne.pokazOkno();
             } else {
-                JOptionPane.showMessageDialog(frame, "Bledne dane logowania");
+                JOptionPane.showMessageDialog(frame, "Incorrect login details");
             }
 
         });

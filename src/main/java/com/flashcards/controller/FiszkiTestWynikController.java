@@ -1,16 +1,14 @@
 package com.flashcards.controller;
 
-import com.flashcards.domain.FiszkiTestWynik;
 import com.flashcards.domain.dto.FiszkiTestWynikDto;
-import com.flashcards.domain.dto.FlashcardDto;
 import com.flashcards.service.FiszkiTestWynikService;
-import com.flashcards.service.FlashcardService;
 import com.flashcards.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import java.util.List;
-
+/**
+ * Klasa będąca częścią warstwy prezentacji
+ */
 @Controller
 public class FiszkiTestWynikController {
 
@@ -20,13 +18,13 @@ public class FiszkiTestWynikController {
     @Autowired
     LoginService loginService;
 
-    public double fiszkiTestWynikForLoggedInUser(){
+    public double fiszkiTestWynikForLoggedInUser() {
         return loginService.currentLoggedInUser()
                 .map(fiszkiTestWynikService::getFiszkiTestWynikForUser)
                 .orElseThrow();
     }
 
-    public void saveFiskiTestWynik(double wynik, double liczbaFiszek){
+    public void saveFiskiTestWynik(double wynik, double liczbaFiszek) {
         loginService.currentLoggedInUser().ifPresent(u ->
                 fiszkiTestWynikService.saveFiszkiTestWynikForUser(new FiszkiTestWynikDto(null, wynik, liczbaFiszek, u)));
     }

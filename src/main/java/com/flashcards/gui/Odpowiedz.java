@@ -18,13 +18,11 @@ public class Odpowiedz
 		this.prawdziwoscOdp = prawdziwoscOdp;
 	}
 	
-	public Odpowiedz(String tekstOdp, boolean prawdziwoscOdp)
-	{
+	public Odpowiedz(String tekstOdp, boolean prawdziwoscOdp) {
 		this.tekstOdp = tekstOdp;
 		this.prawdziwoscOdp = prawdziwoscOdp;
 	}
-	public Odpowiedz(String tekstOdp)
-	{
+	public Odpowiedz(String tekstOdp) {
 		this.tekstOdp = tekstOdp;
 		this.prawdziwoscOdp = false;
 	}

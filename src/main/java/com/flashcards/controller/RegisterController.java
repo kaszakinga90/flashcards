@@ -6,6 +6,9 @@ import com.flashcards.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+/**
+ * Klasa będąca częścią warstwy prezentacji
+ */
 @Controller
 public class RegisterController {
 
@@ -15,14 +18,11 @@ public class RegisterController {
     @Autowired
     LoginService loginService;
 
-    public boolean register(String email, String password){
-
+    public boolean register(String email, String password) {
         boolean success = userService.registerUser(new UserDto(null, email, password));
-        if(success){
+        if (success) {
             loginService.zaloguj(email, password);
         }
         return success;
     }
-
-
 }

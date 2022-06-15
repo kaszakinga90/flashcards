@@ -1,9 +1,9 @@
 package com.flashcards.gui;
 
-
 import com.flashcards.controller.FiszkiTestWynikController;
-import com.flashcards.gui.OknoGlowne;
+import com.flashcards.domain.FiszkiTestWynik;
 import com.flashcards.repository.FiszkiTestWynikRepository;
+import com.flashcards.repository.QuizWynikRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import stareKlasy.Statystyki;
@@ -12,7 +12,6 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,8 +21,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 @Component
-public class OknoStatystyki
-{
+public class OknoStatystyki {
     private final JFrame frame;
     private final JPanel panel;
     private final JLabel label1;
@@ -34,24 +32,16 @@ public class OknoStatystyki
     private final JTextField wynikQuiz;
 
     @Autowired
-    private FiszkiTestWynikController fiszkiTestWynikController;
+    private FiszkiTestWynikRepository fiszkiTestWynikRepository;
 
     @Autowired
-    private FiszkiTestWynikRepository fiszkiTestWynikRepository;
-//    private OknoGlowne okno;
-//
-//    public OknoGlowne getOkno() {
-//        return okno;
-//    }
-//    public void setOkno(OknoGlowne okno) {
-//        this.okno = okno;
-//    }
+    private QuizWynikRepository quizWynikRepository;
 
-//    public OknoStatystyki(OknoGlowne okno)
-    public OknoStatystyki()
-    {
-        frame = new JFrame("Statystyki");
-//        this.okno = okno;
+    @Autowired
+    private FiszkiTestWynikController fiszkiTestWynikController;
+
+    public OknoStatystyki() {
+        frame = new JFrame("Statistics");
         frame.setSize(600, 400);
         panel = new JPanel();
         frame.setContentPane(panel);
@@ -63,8 +53,8 @@ public class OknoStatystyki
         JPanel panelFiszki = new JPanel();
         JPanel panelQuiz = new JPanel();
 
-        label1 = new JLabel("Fiszki - wyniki");
-        label2 = new JLabel("Quiz - wyniki");
+        label1 = new JLabel("Flashcards - results");
+        label2 = new JLabel("Quiz - results");
         poleFiszki = new JTextArea(5, 30);
         poleQuiz = new JTextArea(5, 30);
         wynikFiszki = new JTextField(30);
@@ -97,12 +87,8 @@ public class OknoStatystyki
         zamknijOkno();
     }
 
-    /**
-     * Zamykanie okna "Statystyki"
-     *  Ta metoda zamyka okno Statystyki, wysy�a sygna� do w�tku o zako�czeniu i aktywuje z powrotem okno g��wne.
-     */
-    private void zamknijOkno()
-    {
+
+    private void zamknijOkno() {
 //        frame.addWindowListener (new WindowAdapter() {
 //            public void windowClosing(WindowEvent e) {
 //                frame.dispose();
@@ -114,44 +100,54 @@ public class OknoStatystyki
 //        frame.setVisible(true);
     }
 
-    private void aktualizujFiszki()
-    {
-        if(!Statystyki.RozegraneFiszki.isEmpty())
-        {
-            for(int i=1; i <= Statystyki.WynikFiszek.size(); i++)
-                poleFiszki.append("Partia fiszek nr " + i + ": " + Statystyki.WynikFiszek.get(i-1) + "/" + Statystyki.RozegraneFiszki.get(i-1) + "\n");
+    private void aktualizujFiszki() {
+        if (!Statystyki.RozegraneFiszki.isEmpty()) {
+            for (int i = 1; i <= Statystyki.WynikFiszek.size(); i++)
+                poleFiszki.append("Partia fiszek nr " + i + ": " + Statystyki.WynikFiszek.get(i - 1) + "/" + Statystyki.RozegraneFiszki.get(i - 1) + "\n");
             wynikFiszki.setText("Wszystkie zdobyte punkty: " + Statystyki.CalkowityWynik(Statystyki.WynikFiszek) + "/" + Statystyki.CalkowityWynik(Statystyki.RozegraneFiszki));
         }
     }
-    private void aktualizujQuiz()
-    {
-        if(!Statystyki.RozegraneFiszki.isEmpty())
-        {
-            for(int i=1; i <= Statystyki.WynikQuizu.size(); i++)
-                poleQuiz.append("Partia quizu nr " + i + ": " + Statystyki.WynikQuizu.get(i-1) + "/" + Statystyki.RozegraneQuizy.get(i-1) + "\n");
+
+    private void aktualizujQuiz() {
+        if (!Statystyki.RozegraneFiszki.isEmpty()) {
+            for (int i = 1; i <= Statystyki.WynikQuizu.size(); i++)
+                poleQuiz.append("Partia quizu nr " + i + ": " + Statystyki.WynikQuizu.get(i - 1) + "/" + Statystyki.RozegraneQuizy.get(i - 1) + "\n");
             wynikQuiz.setText("Wszystkie zdobyte punkty: " + Statystyki.CalkowityWynik(Statystyki.WynikQuizu) + "/" + Statystyki.CalkowityWynik(Statystyki.RozegraneQuizy));
         }
     }
 
+    /**
+     * Metoda inicjalizuje okno Statistics
+     */
     public void init(JFrame oknoGlowne) {
         frame.setVisible(true);
         //wynikFiszki.setText(String.valueOf(fiszkiTestWynikController.fiszkiTestWynikForLoggedInUser()));
 
-        if(fiszkiTestWynikRepository.getLiczbaFiszek()==0){
-            wynikFiszki.setText("Brak wynikow");
+        if (fiszkiTestWynikRepository.getLiczbaFiszek() == 0) {
+            wynikFiszki.setText("No results");
         } else {
-            double result = fiszkiTestWynikRepository.getWyniki()/fiszkiTestWynikRepository.getLiczbaFiszek();
+            double result = fiszkiTestWynikRepository.getWyniki() / fiszkiTestWynikRepository.getLiczbaFiszek();
+            //result = Math.round(result);
             result *= 100;
+
             wynikFiszki.setText(result + "%");
         }
 
+        if (quizWynikRepository.getLiczbaPytan() == 0) {
+            wynikQuiz.setText("No results");
+        } else {
+            double result = quizWynikRepository.getWyniki() / quizWynikRepository.getLiczbaPytan();
+            result *= 100;
+            result = Math.round(result);
+            wynikQuiz.setText(result + "%");
+        }
 
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
             }
+
             public void windowClosed(WindowEvent e) {
                 oknoGlowne.setVisible(true);
-
             }
         });
     }

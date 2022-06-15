@@ -16,8 +16,7 @@ public class JezykCheckListener implements ActionListener
 	private JTextField pole1;
 	private JTextField pole2;
 	
-	public JezykCheckListener(JCheckBox checkbox1, JCheckBox checkbox2, JTextField pole1, JTextField pole2)
-	{
+	public JezykCheckListener(JCheckBox checkbox1, JCheckBox checkbox2, JTextField pole1, JTextField pole2) {
 		this.checkbox1 = checkbox1;
 		this.checkbox2 = checkbox2;
 		this.pole1 = pole1;
@@ -25,37 +24,26 @@ public class JezykCheckListener implements ActionListener
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent e) 
-	{
-		try 
-		{
-			if(checkbox1.isSelected())
-			{
+	public void actionPerformed(ActionEvent e) {
+		try {
+			if(checkbox1.isSelected()) {
 				dezaktywacja(pole1, pole2);
 				pole1.setFont(new Font("Calibri", Font.BOLD, 14));
 				pole2.setFont(new Font("Calibri", Font.BOLD, 14));
 				checkbox2.setSelected(false);
-			}
-			else
-			{
+			}  else {
 				aktywacja(pole1, pole2);
 			}
-		}
-		catch(Exception ex)
-		{
+		}  catch(Exception ex)  {
 			ex.printStackTrace();
 		}		
 	}
 	
-	private void dezaktywacja(JTextField pole1, JTextField pole2)
-	{
-		//pole1.setEnabled(false);
+	private void dezaktywacja(JTextField pole1, JTextField pole2) {
 		pole1.setEditable(false);
-		//pole2.setEnabled(true);
 		pole2.setEditable(true);
 	}
-	private void aktywacja(JTextField pole1, JTextField pole2)
-	{
+	private void aktywacja(JTextField pole1, JTextField pole2) {
 		pole1.setEnabled(true);
 		pole1.setEditable(true);
 		pole2.setEnabled(true);

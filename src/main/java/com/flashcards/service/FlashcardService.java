@@ -6,9 +6,11 @@ import com.flashcards.mapper.FlashcardMapper;
 import com.flashcards.repository.FlashcardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
+/**
+ * Klasa będąca częścią warstwy logiki biznesowej
+ */
 @Service
 public class FlashcardService {
 

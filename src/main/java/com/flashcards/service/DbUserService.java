@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.flashcards.repository.UserRepository;
 
+/**
+ * Klasa będąca częścią warstwy logiki biznesowej
+ */
 @Component
 public class DbUserService {
     @Autowired
@@ -43,7 +46,7 @@ public class DbUserService {
         return userRepository.save(user);
     }
 
-    public boolean registerUser(UserDto userDto){
+    public boolean registerUser(UserDto userDto) {
         boolean alreadyExists = getAllUsers().stream().anyMatch((u -> Objects.equals(u.getEmail(), userDto.getEmail())));
         if (alreadyExists) {
             return false;
@@ -52,5 +55,4 @@ public class DbUserService {
             return true;
         }
     }
-
 }

@@ -7,7 +7,6 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public abstract class AbstractCredentialWindow {
 
-
     protected final JFrame frame;
     protected final JTextField textFieldEmail;
     protected final JLabel labelEmail;
@@ -39,10 +38,8 @@ public abstract class AbstractCredentialWindow {
 
         frame.setLocationRelativeTo(null);
         frame.setResizable(true);
-        //frame.setVisible(true);
         pokazOkno();
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
     }
 
     public void pokazOkno(){

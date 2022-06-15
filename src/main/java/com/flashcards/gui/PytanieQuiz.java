@@ -2,8 +2,7 @@ package com.flashcards.gui;
 
 import com.flashcards.gui.Odpowiedz;
 
-public class PytanieQuiz
-{
+public class PytanieQuiz {
 	private String pytanie;
 	private Odpowiedz odp1;
 	private Odpowiedz odp2;
@@ -41,13 +40,11 @@ public class PytanieQuiz
 		this.odp4 = odp4;
 	}
 	
-	public PytanieQuiz(String pytanie, Odpowiedz odp1, Odpowiedz odp2, Odpowiedz odp3, Odpowiedz odp4)
-	{
+	public PytanieQuiz(String pytanie, Odpowiedz odp1, Odpowiedz odp2, Odpowiedz odp3, Odpowiedz odp4) {
 		this.pytanie = pytanie;
 		this.odp1 = odp1;
 		this.odp2 = odp2;
 		this.odp3 = odp3;
 		this.odp4 = odp4;
 	}
-	
 }

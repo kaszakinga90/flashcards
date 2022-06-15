@@ -7,6 +7,9 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Klasa reprezentująca encję z bazy danych
+ */
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
@@ -48,10 +51,8 @@ public class User {
     )
     private List<QuizWynik> quizWynik = new ArrayList<>();
 
-    public User(Long id, String email, String password){
+    public User(Long id, String email, String password) {
         this.email = email;
         this.password = password;
     }
-
-
 }

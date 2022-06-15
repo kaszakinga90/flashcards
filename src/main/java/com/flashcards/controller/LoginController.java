@@ -7,19 +7,21 @@ import org.springframework.stereotype.Controller;
 
 import java.util.Optional;
 
+/**
+ * Klasa będąca częścią warstwy prezentacji
+ */
 @Controller
 public class LoginController {
 
     @Autowired
     LoginService loginService;
 
-    public Optional<UserDto> loggedInUser(){
-         return loginService.currentLoggedInUser();
+    public Optional<UserDto> loggedInUser() {
+        return loginService.currentLoggedInUser();
     }
 
-    public boolean login(String email, String password){
+    public boolean login(String email, String password) {
         loginService.zaloguj(email, password);
         return loginService.currentLoggedInUser().isPresent();
     }
-
 }
