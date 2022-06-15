@@ -119,7 +119,7 @@ public class OknoFiszki {
      * Zbiór fiszek jest indywidualny dla ka¿dego u¿ytkownika
      */
     public void init(JFrame oknoGlowne) {
-        //oknoGlowne.setVisible(false);
+        oknoGlowne.setVisible(false);
         flashcards = flashcardController.flashcardsForLoggedInUser();
 
         if (flashcards.size() < 5) {
@@ -230,7 +230,6 @@ public class OknoFiszki {
             }
             fiszkiTestWynikController.saveFiskiTestWynik(wynik, liczbaFiszek);
 
-//			Statystyki.RozegraneFiszki.add(liczbaFiszek);
             if (czyStart) JOptionPane.showMessageDialog(null, "Series completed! Your result: " + wynik + "/" + liczbaFiszek);
             aktywujPrzyciski();
         }

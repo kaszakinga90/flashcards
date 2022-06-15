@@ -90,13 +90,11 @@ public class PytaniaQuiz {
     public static ArrayList<PytanieQuiz> losujPytania() {
         ArrayList<PytanieQuiz> WylosowanePytania = new ArrayList<>();
         Random rand = new Random();
-        //int tab[] = new int[5];	//sprawdzanie, czy liczba siê nie powtarza
 
         for (int i = 0; i < 5; i++) {
             int losowaLiczba = rand.nextInt(ListaPytan.size());
             WylosowanePytania.add(ListaPytan.get(losowaLiczba));
         }
-
         return WylosowanePytania;
     }
 }

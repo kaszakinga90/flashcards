@@ -48,12 +48,12 @@ public class OknoStatystyki {
 
         label1 = new JLabel("Flashcards - results");
         label2 = new JLabel("Quiz - results");
-        poleFiszki = new JTextArea(5, 30);
+        poleFiszki = new JTextArea(5, 40);
         poleFiszki.append("Detailed test results will be posted here in the future");
-        poleQuiz = new JTextArea(5, 30);
+        poleQuiz = new JTextArea(5, 40);
         poleQuiz.append("Detailed test results will be posted here in the future");
-        wynikFiszki = new JTextField(30);
-        wynikQuiz = new JTextField(30);
+        wynikFiszki = new JTextField(40);
+        wynikQuiz = new JTextField(40);
         JScrollPane scroll1 = new JScrollPane(poleFiszki);
         JScrollPane scroll2 = new JScrollPane(poleQuiz);
 
@@ -76,33 +76,21 @@ public class OknoStatystyki {
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
 
-        zamknijOkno();
-    }
-
-    private void zamknijOkno() {
-//        frame.addWindowListener (new WindowAdapter() {
-//            public void windowClosing(WindowEvent e) {
-//                frame.dispose();
-//            }
-//            public void windowClosed(WindowEvent e) {
-//                getOkno().getFrame().setVisible(true);
-//            }
-//        });
-//        frame.setVisible(true);
+        //zamknijOkno();
     }
 
     /**
      * Metoda inicjalizuje okno Statistics
      */
     public void init(JFrame oknoGlowne) {
-        frame.setVisible(true);
-        //wynikFiszki.setText(String.valueOf(fiszkiTestWynikController.fiszkiTestWynikForLoggedInUser()));
 
+        //wynikFiszki.setText(String.valueOf(fiszkiTestWynikController.fiszkiTestWynikForLoggedInUser()));
+        frame.setVisible(true);
         if (fiszkiTestWynikRepository.getLiczbaFiszek() == 0) {
             wynikFiszki.setText("No results");
         } else {
             double result = fiszkiTestWynikRepository.getWyniki() / fiszkiTestWynikRepository.getLiczbaFiszek();
-            //result = Math.round(result);
+            result = Math.round(result);
             result *= 100;
 
             wynikFiszki.setText(result + "%");
@@ -116,6 +104,7 @@ public class OknoStatystyki {
             result = Math.round(result);
             wynikQuiz.setText(result + "%");
         }
+
 
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {

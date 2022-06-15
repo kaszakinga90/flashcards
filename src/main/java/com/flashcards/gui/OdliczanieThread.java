@@ -1,27 +1,19 @@
 package com.flashcards.gui;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.swing.*;
 
 /**
  * Ten wątek odlicza czas na odpowiedz.
  * Pozostały czas pokazuje się na przycisku "Start"
  */
+@Getter
+@Setter
 public class OdliczanieThread extends Thread {
 	private JButton przycisk;
 	private int czas;
-		
-	public JButton getPrzycisk() {
-		return przycisk;
-	}
-	public void setPrzycisk(JButton przycisk) {
-		this.przycisk = przycisk;
-	}
-	public int getCzas() {
-		return czas;
-	}
-	public void setCzas(int czas) {
-		this.czas = czas;
-	}
 	
 	public OdliczanieThread(JButton przycisk, int czas) {
 		this.przycisk = przycisk;
@@ -34,7 +26,6 @@ public class OdliczanieThread extends Thread {
 				getPrzycisk().setText(getCzas()/1000 + "");
 				Thread.sleep(1000);
 				setCzas(getCzas() - 1000);
-				//if(getCzas() < 0) getPrzycisk().setText("0");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				return;

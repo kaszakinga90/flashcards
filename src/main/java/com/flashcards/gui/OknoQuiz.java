@@ -194,10 +194,12 @@ public class OknoQuiz {
      * Przywraca widocznoœæ Okna g³ównego po zamkniêciu okna Quiz
      */
     public void init(JFrame oknoGlowne) {
+        oknoGlowne.setVisible(false);
         frame.setVisible(true);
         JOptionPane.showMessageDialog(null, "After pressing the <Start> button you will see 5 questions. Choose one of the answers: A, B, C, D (you can use the keyboard!). You have 10 seconds to answer. Good luck :)");
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
+                oknoGlowne.setVisible(true);
             }
 
             public void windowClosed(WindowEvent e) {
@@ -373,8 +375,7 @@ public class OknoQuiz {
                     if (!getOknoQuiz().isCzyStart()) break;
                 }
             }
-//            Statystyki.WynikQuizu.add(wynik);
-//            Statystyki.RozegraneQuizy.add(liczbaPytan);
+
             quizWynikController.saveQuizWynik(wynik,liczbaPytan);
 
             if (getOknoQuiz().isCzyStart()) JOptionPane.showMessageDialog(null, "Quiz finished! Your result: " + wynik + "/" + liczbaPytan);

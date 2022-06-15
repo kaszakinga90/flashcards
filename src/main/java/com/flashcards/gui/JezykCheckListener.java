@@ -11,10 +11,10 @@ import java.awt.event.ActionListener;
  */
 public class JezykCheckListener implements ActionListener
 {
-	private JCheckBox checkbox1;
-	private JCheckBox checkbox2;
-	private JTextField pole1;
-	private JTextField pole2;
+	private final JCheckBox checkbox1;
+	private final JCheckBox checkbox2;
+	private final JTextField pole1;
+	private final JTextField pole2;
 	
 	public JezykCheckListener(JCheckBox checkbox1, JCheckBox checkbox2, JTextField pole1, JTextField pole2) {
 		this.checkbox1 = checkbox1;

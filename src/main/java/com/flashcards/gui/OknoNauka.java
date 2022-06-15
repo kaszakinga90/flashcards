@@ -54,7 +54,6 @@ public class OknoNauka {
         panel = new JPanel();
         frame.setContentPane(panel);
 
-
         panel.setLayout(new GridLayout(4, 1, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         labelWordPl = new JLabel("PL word");
@@ -121,8 +120,6 @@ public class OknoNauka {
                 wyswietlFiszke(flashcards.get(counter));
             }
         });
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 
         buttonAdd.addActionListener(e -> {
             wyczyscPola();
