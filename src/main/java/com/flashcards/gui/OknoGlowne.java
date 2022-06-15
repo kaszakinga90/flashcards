@@ -115,31 +115,14 @@ public class OknoGlowne {
         przyciskQuiz.addActionListener(e ->
                 oknoQuiz.init(frame));
 
-
         frame.addWindowListener(new WindowAdapter() {
+
             public void windowClosing(WindowEvent e) {
                 //frame.dispose();
                 System.out.println("Zamykanie okna");
-
-//				socketKlienta.getOut().println(KONIEC_POLACZENIA);
-//				if (String.valueOf(socketKlienta.getIn()).equals(KONIEC_POLACZENIA)) {
-//					try {
-//						System.out.println("Zamykanie po³¹czenia");
-//						socketKlienta.getIn().close();
-//						System.out.println("Zamkniêto in");
-//						socketKlienta.getOut().close();
-//						System.out.println("Zamkniêto out");
-//						socketKlienta.getSocket().close();
-//						System.out.println("Zamkniêto socket");
-//						socketKlienta.getScanner().close();
-//					} catch (IOException ex) {
-//						System.out.println("B³¹d przy zamykaniu po³¹czenia");
-//					}
-//				}
             }
 
             public void windowClosed(WindowEvent e) {
-                //socketKlienta.getOut().println(KONIEC_POLACZENIA);
             }
         });
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

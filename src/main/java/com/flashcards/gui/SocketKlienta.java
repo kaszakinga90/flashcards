@@ -1,11 +1,20 @@
 package com.flashcards.gui;
 
+import com.flashcards.controller.LoginController;
+import com.flashcards.service.LoginService;
+import lombok.Getter;
+import lombok.Setter;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
+@Getter
+@Setter
 @Component
 public class SocketKlienta {
 
@@ -16,57 +25,45 @@ public class SocketKlienta {
     private PrintWriter out;
     private Scanner scanner;
 
-    public Scanner getScanner() {
-        return scanner;
-    }
+    @Autowired
+    LoginController loginController;
 
-    public void setOut(PrintWriter out) {
-        this.out = out;
-    }
-
-    public void setScanner(Scanner scanner) {
-        this.scanner = scanner;
-    }
-
-    public Socket getSocket() {        return socket;    }
-    public BufferedReader getIn() {        return in;    }
-    public PrintWriter getOut() {        return out;    }
-
-    public SocketKlienta()
-    {
+    public SocketKlienta() {
     }
 
     public void inicjalizuj() {
         try {
-            // Tworzymy połączenie z serwerem.
             socket = new Socket("localhost", SERWER_PORT);
-            //socket = new Socket("167.235.227.37", SERWER_PORT);
-
-            //obiekt do otrzymywania danych od klienta
             in = new BufferedReader(
                     new InputStreamReader(socket.getInputStream()));
-
-            //tu mozemy pisac do klienta
             out = new PrintWriter(new BufferedWriter(
                     new OutputStreamWriter(
-                            socket.getOutputStream())),true);
+                            socket.getOutputStream())), true);
             scanner = new Scanner(System.in);
-
 
             while (true) {
                 String line = in.readLine();
                 System.out.println(line);
 
+                if (line.equals("KONIEC POLACZENIA")) {
+                    try {
+                        System.out.println("Zamykanie połączenia");
+                        in.close();
+                        System.out.println("Zamknięto in");
+                        out.close();
+                        System.out.println("Zamknięto out");
+                        socket.close();
+                        System.out.println("Zamknięto socket");
+                        scanner.close();
+                        System.out.println("Zamknięto scanner");
+                        break;
+                    } catch (IOException ex) {
+                        System.out.println("Błąd przy zamykaniu połączenia");
+                    }
+                }
                 String text = scanner.nextLine();
                 out.println(text);
-
             }
-
-
-            // Wątek nasłuchujący wiadomości od serwera.
-//            Thread thread = new NasluchiwaczThread(in, output);
-//            thread.start();
-
         } catch (IOException ex) {
             System.out.println("Błąd przy tworzeniu połączenia");
         }
